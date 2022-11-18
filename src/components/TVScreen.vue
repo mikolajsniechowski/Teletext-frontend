@@ -1,15 +1,16 @@
 <template>
+  <div class="d-flex">
 <div id="screen">
    <TvWelcomeScreen v-if="showWelcome"></TvWelcomeScreen>
    <TvContents v-if="showContents"></TvContents>
    <TvCurrency v-if="showCurrency"></TvCurrency>
    <TvNews v-if="showNews"></TvNews>
    <TvNotFound v-if="showNotFound"></TvNotFound>
+  </div>
 </div>
 </template>
 
 <script>
-import sourceData from '@/data.json'
 import TvContents from '@/components/Pages/TvContents.vue'
 import TvCurrency from '@/components/Pages/TvCurrency.vue'
 import TvNews from '@/components/Pages/TvNews.vue'
@@ -46,9 +47,6 @@ return{
     TvContents, TvNews, TvCurrency, TvWelcomeScreen, TvNotFound
   },
   computed: {
-    getContent () {
-      return sourceData.contents.find(getContent => getContent.id === this.id)
-    }
   },
   methods: {
     getChannels(){

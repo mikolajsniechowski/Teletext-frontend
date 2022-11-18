@@ -1,0 +1,95 @@
+{
+    "currencies": [
+      {
+        "name": "Dolar amerykański",
+        "code": "usd",
+        "id": 1,
+        "rate": ""  
+      },
+      {
+        "name": "Euro",
+        "code": "eur",
+        "id": 2,
+        "rate": ""  
+      },
+      {
+        "name": "Lira Turecka",
+        "code": "try",
+        "id": 3,
+        "rate": ""  
+      },
+      {
+        "name": "Hrywna ukraińska",
+        "code": "uah",
+        "id": 4,
+        "rate": ""  
+      },
+      {
+        "name": "Funt szterlking",
+        "code": "gbp",
+        "id": 5,
+        "rate": ""  
+      },
+      {
+        "name": "dolar australijski",
+        "code": "aud",
+        "id": 6,
+        "rate": ""  
+      },
+      {
+        "name": "dolar kanadyjski",
+        "code": "cad",
+        "id": 7,
+        "rate": ""  
+      },
+      {
+        "name": "Euro",
+        "code": "eur",
+        "id": 8,
+        "rate": ""  
+      },
+      {
+        "name": "Rupia indyjska",
+        "code": "try",
+        "id": 9,
+        "rate": ""  
+      },
+      {
+        "name": "Juan chiński",
+        "code": "cny",
+        "id": 10,
+        "rate": ""  
+      },
+      {
+        "name": "Korona czeska",
+        "code": "czk",
+        "id": 11,
+        "rate": ""  
+      },
+      {
+        "name": "Korona duńska",
+        "code": "dkk",
+        "id": 12,
+        "rate": ""  
+      },
+      {
+        "name": "Frank szwajcarski",
+        "code": "chf",
+        "id": 13,
+        "rate": ""  
+      },
+      {
+        "name": "Korona szwedzka",
+        "code": "sek",
+        "id": 14,
+        "rate": ""  
+      },
+      {
+        "name": "Rand",
+        "code": "zar",
+        "id": 15,
+        "rate": ""  
+      }
+    ]
+  }
+  
