@@ -1,5 +1,6 @@
 <template>
-      <div id="tv ">
+  <div class="contrainer">
+    <div id="tv ">
         <div>
              <router-view/>
         </div>
@@ -11,6 +12,8 @@
       <button v-on:click="IdPlus" class="btn">NEXT</button>
       </div>
       </div>
+  </div>
+      
   </template>
 <script>
 //import TVScreen from './TVScreen.vue'
