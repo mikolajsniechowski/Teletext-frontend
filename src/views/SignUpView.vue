@@ -1,5 +1,5 @@
 <template>
-    <div id="login">
+    <div id="signup">
         <h1>Rejestracja</h1>
       <br />
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
@@ -39,10 +39,5 @@
 }
 </script>
 
-<style scoped>
-  input {
-    display: block;
-    margin: 10px;
-  }
-
+<style>
 </style>

@@ -27,7 +27,11 @@
           </ul>
         </div>
       </nav>
-    
+
+    <div class="scroll-container">
+      <div class="scroll-text">Message of the day</div>
+    </div>
+
       <div class="row-fluid bg-primary text-center">
       <router-view/> 
       </div>

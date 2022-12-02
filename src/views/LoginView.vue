@@ -36,10 +36,5 @@
     }
 </script>
 
-<style scoped>
-  input {
-    display: block;
-    margin: 10px;
-  }
-
+<style>
 </style>
