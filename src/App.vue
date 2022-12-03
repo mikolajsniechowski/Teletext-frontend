@@ -24,6 +24,9 @@
             <li class="nav-item">
               <router-link to="/login"> Logowanie </router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/profile"> Profil </router-link>
+            </li>
           </ul>
         </div>
       </nav>
