@@ -1,14 +1,16 @@
 <template>
+  <div class="container">
     <div class="row">
-      <div class="col">
-        <h1 class="bg-danger">Kursy walut</h1>
-      </div>
+    <div class="col">
+      <h1 class="bg-danger">Kursy walut</h1>
     </div>
-    <div class="row">
-      <div class="col">
-        <p>Dzisiejsza data: {{currentDate}} </p>
-      </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>Kurs z dnia: {{$store.state.currentDate}}  </p>
     </div>
+  </div>
+  <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]">
     <div class="row">
       <div class="col">
         <p>Waluta </p>
@@ -17,102 +19,98 @@
         <p>Średni Kurs</p>
       </div>
     </div>
-    <div v-for="(item,key) in Pagination" class="row" :key="item.id">
-       <div class="col">
-        <p>{{item.name}} {{key}} </p>
-       </div>
-       <div class="col">
+    <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item.id">
+      <div class="col">
+        <p>{{item.name}} </p>
+      </div>
+      <div class="col">
         {{item.rate}}
       </div> 
+  </div>
+  </div>
+  <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+1">
+    <div class="row">
+      <div class="col">
+        <p>Waluta </p>
+      </div>
+      <div class="col">
+        <p>Kupno</p>
+      </div>
+      <div class="col">
+        <p>Sprzedaż</p>
+      </div>
     </div>
-   
+    <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item.id">
+      <div class="col">
+        <p>{{item.name}} </p>
+      </div>
+      <div class="col">
+        {{item.buy}}
+      </div>
+      <div class="col">
+        {{item.sell}}
+      </div>  
+  </div>
+  </div>
+  <div class="align-self-end">
+    <p> Na podstawie informacji z API NBP</p>
+  </div>
+  </div>
 </template>
 <script>
-import axios from 'axios';
-import sourceData from '@/datacurrency.json'
 export default {
-  name: 'TvContents',
-  data() {
-    return {
-      spageNumber: 1,
-      currentDate: "",
-      currency: [''],
-      limitAtPage:3
-    }
-  },
-  created() {
-    this.$watch(
-      () => this.$route.params,
-      () => {
-        if(this.$route.params.subpage == null )
-        {
-          this.spageNumber =1
-        }
-        else
-        {
-          this.spageNumber = this.$route.params.subpage
-        }
-      }
-    ),
-    setInterval(this.getNow,1000)
-    this.getCurrenciesData();
-    this.currency.forEach((element) => {
-      const a = this.getData(element.code)
-      a.then((value) => {
-        element.rate = value
-      })
-    })
-  },
-  computed: {
-    Pagination()
-    {
-      if(this.spageNumber == 1)
+name: 'TvCurrency',
+data() {
+  return {
+    spageNumber: 1,
+    currency: [''],
+    limitAtPage:3
+  }
+},
+created() {
+  this.$watch(
+    () => this.$route.params,
+    () => {
+      if(this.$route.params.subpage == null )
       {
-        return this.currency.slice(0,this.limitAtPage)
+        this.spageNumber =1
+        this.$store.commit('setHasSubpage',true)
       }
       else
       {
-        return this.currency.slice(((this.spageNumber-1)*this.limitAtPage)-1,(this.limitAtPage*this.spageNumber)-1)
-        /*
-         2 4
-         3 9
-         4 14
-        */
+        this.$store.commit('setHasSubpage',true)
+        this.spageNumber = this.$route.params.subpage
+        this.$store.commit('setSPageNumber',this.spageNumber)
       }
-      
     }
-    
-  },
-  mounted() {
-    let temp = this.$route.params.subpage
-    if(temp == null)
-    {
-      this.spageNumber = 1
-    }
-    else
-    {
-      this.spageNumber = this.$route.params.subpage;
-    }
-  },
-  methods: {
-    getNow () {
-      const today = new Date();
-      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      const dateTime = date 
-      this.currentDate = dateTime;      
-    },
-    async getData(code) {
-          try {
-            const response = await axios.get('https://api.nbp.pl/api/exchangerates/rates/a/'+code+'/?format=json');
-            const rate=response.data.rates;
-            return rate[0].mid;
-          } catch (error) {
-            console.log(error);
-          }
-        },
-     getCurrenciesData() {
-      this.currency = sourceData.currencies
-     }                
+  ),
+  this.$store.commit('getCurrenciesData'); //PRZENNIEŚĆ DO TVSCREEN Z INNYMI
+  this.$store.dispatch('getCurrenciesRateBuySell')
+  this.$store.dispatch('getCurrenciesRate') ;
+  const payload = {'key1': this.$store.state.channelContents.CurrencyRates.currencies,'key2':this.limitAtPage} 
+  this.$store.commit('setSubpageParameters',payload)
+  this.$store.commit('setHasSubpage',true)
+  
+},
+mounted() {
+  
+  let temp = this.$route.params.subpage
+  if(temp == null)
+  {
+    this.spageNumber = 1
+    this.$store.commit('setHasSubpage',true)
   }
+  else
+  {
+    this.spageNumber = this.$route.params.subpage
+    this.$store.commit('setSPageNumber',this.spageNumber)
+    this.$store.commit('setHasSubpage',true)
+  }
+},
+unmounted() {
+  this.$store.commit('setHasSubpage',false)
+},
+methods: {             
+}
 }
 </script>

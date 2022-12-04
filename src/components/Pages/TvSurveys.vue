@@ -1,10 +1,10 @@
 <template>
-    <h1 class="danger">Bieżące aktualności</h1>
+    <h1 class="danger">EEEEEEEEEEEEEEAnkietyEEEEEEEEEEEEEEEEE</h1>
   <p>Podstrona nr: {{spageNumber}} </p>
 </template>
 <script>
 export default {
-  name: 'TvNews',
+  name: 'TvSurveys',
   data() {
     return {
       spageNumber: 1
