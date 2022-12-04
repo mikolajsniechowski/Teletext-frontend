@@ -4,91 +4,121 @@
         "name": "Dolar amerykański",
         "code": "usd",
         "id": 1,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""  
       },
       {
         "name": "Euro",
         "code": "eur",
         "id": 2,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
-        "name": "Lira Turecka",
+        "name": "Lira turecka",
         "code": "try",
         "id": 3,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Hrywna ukraińska",
         "code": "uah",
         "id": 4,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
-        "name": "Funt szterlking",
+        "name": "Funt szterling",
         "code": "gbp",
         "id": 5,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
-        "name": "dolar australijski",
+        "name": "Dolar australijski",
         "code": "aud",
         "id": 6,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
-        "name": "dolar kanadyjski",
+        "name": "Dolar kanadyjski",
         "code": "cad",
         "id": 7,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
-        "name": "Euro",
-        "code": "eur",
+        "name": "Lew bułgarski",
+        "code": "bgn",
         "id": 8,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Rupia indyjska",
         "code": "try",
         "id": 9,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Juan chiński",
         "code": "cny",
         "id": 10,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Korona czeska",
         "code": "czk",
         "id": 11,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Korona duńska",
         "code": "dkk",
         "id": 12,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Frank szwajcarski",
         "code": "chf",
         "id": 13,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Korona szwedzka",
         "code": "sek",
         "id": 14,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       },
       {
         "name": "Rand",
         "code": "zar",
         "id": 15,
-        "rate": ""  
+        "rate": "",
+        "buy": "",
+        "sell": ""    
       }
     ]
   }

@@ -1,11 +1,17 @@
 <template>
-  <div class="d-flex">
+  <div class="container d-flex">
 <div id="screen">
    <TvWelcomeScreen v-if="showWelcome"></TvWelcomeScreen>
-   <TvContents v-if="showContents"></TvContents>
+   
    <TvCurrency v-if="showCurrency"></TvCurrency>
    <TvNews v-if="showNews"></TvNews>
    <TvNotFound v-if="showNotFound"></TvNotFound>
+   <TvContents v-if="showContents"></TvContents>
+   <TvAnnouncements v-if="showAnnouncements"></TvAnnouncements>
+   <TvCryptoCurrencies v-if="showCryptoCurrencies"></TvCryptoCurrencies>
+   <TvProgram v-if="showProgram"></TvProgram>
+   <TvSurveys v-if="showSurveys"></TvSurveys>
+   <TvWeather v-if="showWeather"></TvWeather>
   </div>
 </div>
 </template>
@@ -16,6 +22,12 @@ import TvCurrency from '@/components/Pages/TvCurrency.vue'
 import TvNews from '@/components/Pages/TvNews.vue'
 import TvWelcomeScreen from '@/components/Pages/TvWelcomeScreen.vue'
 import TvNotFound from '@/components/Pages/TvNotFound.vue'
+import TvAnnouncements from '@/components/Pages/TvAnnouncements.vue'
+import TvCryptoCurrencies from '@/components/Pages/TvCryptoCurrencies.vue'
+import TvProgram from '@/components/Pages/TvProgram.vue'
+import TvSurveys from '@/components/Pages/TvSurveys.vue'
+import TvWeather from '@/components/Pages/TvWeather.vue'
+
 export default {
   props: {
     id: Number,
@@ -23,6 +35,7 @@ export default {
   },
   data () {
 return{
+  channelContents: {},
   selectedChannelSubpage: 1,
   selectedChannel: null,
   showWelcome: true,
@@ -30,6 +43,11 @@ return{
   showCurrency: false,
   showNews: false,
   showNotFound:false,
+  showAnnouncements: false,
+  showCryptoCurrencies: false,
+  showProgram:false,
+  showSurveys:false,
+  showWeather:false
 }
     
   },
@@ -38,13 +56,14 @@ return{
     this.$watch(
       () => this.$route.params,
       () => {
+        this.$store.commit('setPageNumber',this.$route.params.page)
         this.getChannels();
         this.getScreen();
       }
     )
   },
   components: {
-    TvContents, TvNews, TvCurrency, TvWelcomeScreen, TvNotFound
+    TvContents, TvNews, TvCurrency, TvWelcomeScreen, TvNotFound,TvAnnouncements,TvCryptoCurrencies, TvProgram,TvSurveys,TvWeather
   },
   computed: {
   },
@@ -54,37 +73,122 @@ return{
       this.selectedChannelSubpage = this.$route.params.subpage;
     },
     getScreen() {
-      if(this.selectedChannel == 1)
+      if(this.selectedChannel >= this.channelContents.WelcomeScreen.range[0] && this.selectedChannel <= this.channelContents.WelcomeScreen.range[1])
       {
       this.showWelcome= true,
       this.showContents= false,
       this.showCurrency= false,
       this.showNews = false,
-      this.showNotFound= false
+      this.showNotFound= false,
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=false
       }
-      else if (this.selectedChannel > 1 &&  this.selectedChannel <= 5)
+      else if (this.selectedChannel >= this.channelContents.Contents.range[0] && this.selectedChannel <= this.channelContents.Contents.range[1])
       {
       this.showWelcome= false,
       this.showContents= true,
       this.showCurrency= false,
       this.showNews = false,
-      this.showNotFound= false
+      this.showNotFound= false,
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=false
       }
-      else if (this.selectedChannel >= 6 &&  this.selectedChannel <= 10)
+      else if (this.selectedChannel >= this.channelContents.CurrencyRates.range[0] && this.selectedChannel <= this.channelContents.CurrencyRates.range[1])
       {
       this.showWelcome= false,
       this.showContents= false,
       this.showCurrency= true,
       this.showNews = false,
       this.showNotFound= false
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=false
       }
-      else if (this.selectedChannel >= 11 && this.selectedChannel <= 15)
+      else if (this.selectedChannel >= this.channelContents.CryptoRates.range[0] && this.selectedChannel <= this.channelContents.CryptoRates.range[1])
       {
       this.showWelcome= false,
       this.showContents= false,
       this.showCurrency= false,
       this.showNews = true,
       this.showNotFound= false
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=false
+      }
+      else if (this.selectedChannel >= this.channelContents.News.range[0] && this.selectedChannel <= this.channelContents.News.range[1])
+      {
+      this.showWelcome= false,
+      this.showContents= false,
+      this.showCurrency= false,
+      this.showNews = true,
+      this.showNotFound= false
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=false
+      }
+      else if (this.selectedChannel >= this.channelContents.Weather.range[0] && this.selectedChannel <= this.channelContents.Weather.range[1])
+      {
+      this.showWelcome= false,
+      this.showContents= false,
+      this.showCurrency= false,
+      this.showNews = false,
+      this.showNotFound= false
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=true
+      }
+      else if (this.selectedChannel >= this.channelContents.Program.range[0] && this.selectedChannel <= this.channelContents.Program.range[1])
+      {
+      this.showWelcome= false,
+      this.showContents= false,
+      this.showCurrency= false,
+      this.showNews = false,
+      this.showNotFound= false
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=true,
+      this.showSurveys=false,
+      this.showWeather=false
+      }
+      else if (this.selectedChannel >= this.channelContents.Surveys.range[0] && this.selectedChannel <= this.channelContents.Surveys.range[1])
+      {
+      this.showWelcome= false,
+      this.showContents= false,
+      this.showCurrency= false,
+      this.showNews = false,
+      this.showNotFound= false
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=true,
+      this.showWeather=false
+      }
+      else if (this.selectedChannel >= this.channelContents.Announcements.range[0] && this.selectedChannel <= this.channelContents.Announcements.range[1])
+      {
+      this.showWelcome= false,
+      this.showContents= false,
+      this.showCurrency= false,
+      this.showNews = false,
+      this.showNotFound= false
+      this.showAnnouncements= true,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=false
       }
       else
       {
@@ -92,12 +196,19 @@ return{
       this.showContents= false,
       this.showCurrency= false,
       this.showNews = false,
-      this.showNotFound= true
+      this.showNotFound= true,
+      this.showAnnouncements= false,
+      this.showCryptoCurrencies= false,
+      this.showProgram=false,
+      this.showSurveys=false,
+      this.showWeather=false
       }
     }
   },
   mounted() {
   this.selectedChannel = this.$route.params.page;
+  this.channelContents = this.$store.state.channelContents
+  this.$store.commit('setPageNumber',this.$route.params.page)
   if(this.$route.params.subpage == null)
   {
     this.selectedChannelSubpage = 1
