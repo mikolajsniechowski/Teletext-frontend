@@ -1,7 +1,8 @@
-import { Array } from 'core-js'
 import {createStore} from 'vuex'
 import axios from 'axios';
 import sourceDataCurrency from '@/datacurrency.json'
+
+
 export default createStore({
     state: {
         currentDate: null,
@@ -10,7 +11,8 @@ export default createStore({
             pageNumber:1,
             startPage:1,
             contentArray: null,
-            limitAtPage:3,   
+            limitAtPage:3,
+            limitDigitsAtPage:300,   
         },
         subpageState: {
             hasSubpages:false,
@@ -51,12 +53,19 @@ export default createStore({
             range: [13,20],
             content:[['Spis treści', false],
             ['Wiadomości ogólne', true,3],
-            ['Wiadomości ze świata',3],
+            ['Wiadomości technologiczne',3],
             ['Wiadomości sportowe', true,3],
+            ['Wiadomości rozrywkowe', true,3],
             ['Wiadomości biznesowe', true,3],
-            ['Wiadomości motoryzacyjne', true,3],
-            ['Wiadomości technologiczne', true,3],
-            ['Wiadomości growe i filmowe', true,3]]
+            ['Wiadomości naukowe', true,3],
+            ['Wiadomości o zdrowiu', true,3]],
+            topNews:[],
+            technologyNews:[],
+            sportsNews:[],
+            entertainmentNews:[],
+            businessNews:[],
+            scienceNews:[],
+            healthNews:[],    
             }, 
             Weather: {
             title:'Pogoda',    
@@ -150,28 +159,12 @@ export default createStore({
         {
             state.subpageState.subpageContent.sPageNumber = 1
         },
+        setNewsCategoryArray(state,payload)
+        {
+            console.log(payload);
+            state.channelContents.News[payload.key1] = payload.key2 ;
+        },
         //----------------------CHANNEL CONTENTS 
-        setArrayContents(state, start, end) 
-        {
-            let array = new Array()
-            array[0] = start
-            array[1] = end
-            this.state.channelContents.Contents = array
-        },
-        setArrayCurrencyRates(state, start, end) 
-        {
-            let array = new Array()
-            array[0] = start
-            array[1] = end
-            this.state.channelContents.CurrencyRates = array
-        },
-        setArrayNews(state, start, end) 
-        {
-            let array = new Array()
-            array[0] = start
-            array[1] = end
-            this.state.channelContents.News = array
-        },
         
         getCurrenciesData(state) {
         state.channelContents.CurrencyRates.currencies= sourceDataCurrency.currencies;
@@ -201,9 +194,62 @@ export default createStore({
                 console.log(error)
               }
                   
+        },
+        getArticle(state, element)
+        {
+            const { JSDOM } = require('jsdom');
+            const { Readability } = require('@mozilla/readability');
+            let art = []
+                 axios.get(element.link).then( function(r2) {
+                    let dom = new JSDOM(r2.data, {
+                      url: element.link
+                    });
+                    let article = new Readability(dom.window.document).parse();
+                    let str = article.textContent;
+                    str = str.trim();
+                    str = str.replace(/\s{2,}/g, ' ');
+                    
+                    art.push(element.title,str)                 
+                })
+        
+            return art   
+        },
+        getNews(state,category) {
+            const axios = require('axios');
+            
+            let arts=[]
+            let url = 'https://newsdata.io/api/1/news?apikey=pub_14248fa3072e0487f10e233cb311fd8a89144&language=pl&category='+category;
+            axios.get(url).then(  function(r1) {
+              let results = []
+              for(let i=0;i<5;i++)
+              {
+                let str = r1.data.results[i];
+                results.push(str);
+              }
+              results.forEach(  async  element => {
+                let art = await state.dispatch('getArticle',element);
+                arts.push(art);
+                if(arts.length==results.length)
+                {
+                    const payload = {key1: category+'News',key2:arts};
+                          state.commit('setNewsCategoryArray',payload);
+                }
+              })
+            })
+            
         }
     },
     getters: {
+        getAllText(state, textarray)
+        {
+            let text = "";
+            textarray.forEach( element => {
+                element.forEach( element2 => {
+                    text+=element2+"\n";
+                }) 
+            })
+            return text;
+        },
         Pagination(state)
         {
             if(state.pageState.pageNumber == state.pageState.startPage)
@@ -247,6 +293,23 @@ export default createStore({
             return state.subpageState.subpageContent.contentArray.slice(begin,end)
           }
           
+        },
+        SubpaginationText(state,content)
+        {
+            if(state.subpageState.subpageContent.sPageNumber == 1)
+          {
+            return state.subpageState.subpageContent.contentArray.slice(0,state.subpageState.subpageContent.limitDigitsAtPage)
+          }
+          else if(state.subpageState.subpageContent.sPageNumber == 2)
+          {
+            return state.subpageState.subpageContent.contentArray.slice(state.subpageState.subpageContent.limitDigitsAtPage,state.subpageState.subpageContent.limitDigitsAtPage*2)     
+          } 
+          else
+          {
+            const begin = state.subpageState.subpageContent.sPageNumber*state.subpageState.subpageContent.limitDigitsAtPage-state.subpageState.subpageContent.limitDigitsAtPage
+            const end = begin + state.subpageState.subpageContent.limitDigitsAtPage     
+            return state.subpageState.subpageContent.contentArray.slice(begin,end)
+          }
         },
         getContents(state) //Returns Contents from ChannelContents
         {
