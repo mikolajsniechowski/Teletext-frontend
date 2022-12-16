@@ -26,101 +26,139 @@ export default createStore({
         channelContents: {
             WelcomeScreen:{
             title: 'Plansza tytułowa',    
-            range:  [1,1]      
+            range:  [1,1],
+            content:[]      
             },
             Contents:{
             title: 'Spis treści',    
-            range: [2,5]
+            range: [2,5],
+            content:[]
             },
             CurrencyRates:{
             title: 'Kursy Walut',    
             range: [6,10],
-            content:[['Spis treści', false,0],
-            ['Średni kurs', true,3],
-            ['Kupno i Sprzedaż - Tabela C', true,3],
-            ['Aktualny Kurs Złota', false,0],
-            ['Cena innych metali szlachetnych', false,0]],
+            content:[['Spis treści', false,0,'CurrencyRatesContents'],
+            ['Średni kurs', true,3,'currencies'],
+            ['Kupno i Sprzedaż - Tabela C', true,3,'currenciesBuySell'],
+            ['Aktualny Kurs Złota', false,10,'goldPrice'],
+            ['Cena innych metali szlachetnych', false,10,'metals']],
             currencies: [''],
-            currenciesBuySell:['']
+            currenciesBuySell:[''],
+            goldPrice:[],
+            metals: [],
+            CurrencyRatesContents:[]
             },
             CryptoRates: {
             title: 'Kursy Kryptowalut',    
             range: [11,12], 
-            content:[['Cena bitcoin', false],['Cena 10 najważniejszych altcoinów', false]]
+            content:[['Cena bitcoin', false,0,'bitcoinPrice'],['Cena 10 najważniejszych altcoinów', false,0,'altcoinsPrices']],
+            bitcoinPrice:[''],
+            altcoinsPrices:[''],
+            CryptoRatesContents:[], //FEJK
             },
             News: {
             title:'Wiadomości',    
             range: [13,20],
-            content:[['Spis treści', false],
-            ['Wiadomości ogólne', true,3],
-            ['Wiadomości technologiczne',3],
-            ['Wiadomości sportowe', true,3],
-            ['Wiadomości rozrywkowe', true,3],
-            ['Wiadomości biznesowe', true,3],
-            ['Wiadomości naukowe', true,3],
-            ['Wiadomości o zdrowiu', true,3]],
+            content:[['Spis treści', false,0,'NewsContents'],
+            ['Wiadomości ogólne', true,3,'topNews'],
+            ['Wiadomości technologiczne',true,3,'technologyNews'],
+            ['Wiadomości sportowe', true,3,'sportsNews'],
+            ['Wiadomości rozrywkowe',true,3,'entertainmentNews'],
+            ['Wiadomości biznesowe', true,3,'businessNews'],
+            ['Wiadomości naukowe', true,3,'scienceNews'],
+            ['Wiadomości o zdrowiu', true,3,'healthNews']],
             topNews:[],
             technologyNews:[],
             sportsNews:[],
             entertainmentNews:[],
             businessNews:[],
             scienceNews:[],
-            healthNews:[],    
+            healthNews:[],
+            NewsContents:[]    
             }, 
             Weather: {
             title:'Pogoda',    
             range:[21,37],
-            content:[['Spis treści', false],
-            ['Wojewódzctwo dolnośląskie', true,2],
-            ['Wojewódzctwo kujawsko-pomorskie', true,2],
-            ['Wojewódzctwo lubelskie', true,2],
-            ['Wojewódzctwo lubuskie', true,2],
-            ['Wojewódzctwo mazowieckie', true,2],
-            ['Wojewódzctwo małopolskie', true,2],
-            ['Wojewódzctwo opolskie', true,2],
-            ['Wojewódzctwo podkarpackie', true,2],
-            ['Wojewódzctwo podlaskie', true,2],
-            ['Wojewódzctwo pomorskie', true,2],
-            ['Wojewódzctwo śląskie', true,2],
-            ['Wojewódzctwo świętokrzyskie', true,2],
-            ['Wojewódzctwo warmińsko-mazurskie', true,2],
-            ['Wojewódzctwo wielkopolskie', true,2],
-            ['Wojewódzctwo zachodniopomorskie', true,2],
-            ['Wojewódzctwo łódzkie', true,2],
-            ]
+            content:[['Spis treści', false,0,'WeatherContents'],
+            ['Wojewódzctwo dolnośląskie', true,2,'lowersilesian'],
+            ['Wojewódzctwo kujawsko-pomorskie', true,2,'kuyavianPomeranian'],
+            ['Wojewódzctwo lubelskie', true,2,'lublin'],
+            ['Wojewódzctwo lubuskie', true,2,'lubusz'],
+            ['Wojewódzctwo mazowieckie', true,2,'masovian'],
+            ['Wojewódzctwo małopolskie', true,2,'lesserPoland'],
+            ['Wojewódzctwo opolskie', true,2,'opole'],
+            ['Wojewódzctwo podkarpackie', true,2,'subcarpatian'],
+            ['Wojewódzctwo podlaskie', true,2,'podlaskie'],
+            ['Wojewódzctwo pomorskie', true,2,'pomeranian'],
+            ['Wojewódzctwo śląskie', true,2,'silesian'],
+            ['Wojewódzctwo świętokrzyskie', true,2,'holycross'],
+            ['Wojewódzctwo warmińsko-mazurskie', true,2,'warmianMasurian'],
+            ['Wojewódzctwo wielkopolskie', true,2,'greaterPoland'],
+            ['Wojewódzctwo zachodniopomorskie', true,2,'westPomeranian'],
+            ['Wojewódzctwo łódzkie', true,2,'lodz'],
+            ],
+            WeatherContents:[],
+            lowersilesian:[''],
+            kuyavianPomeranian:[''],
+            lublin:[''],
+            lubusz:[''],
+            lodz:[''],
+            lesserPoland:[''],
+            masovian:[''],
+            opole:[''],
+            subcarpatian:[''],
+            podlaskie:[''],
+            pomeranian:[''],
+            silesian:[''],
+            holycross:[''],
+            warmianMasurian:[''],
+            greaterPoland:[''],
+            westPomeranian:['']
             },
             Program: {
             title: 'Program Tv',
             range:[38,45],
-            content:[['Spis treści', false],
-            ['TVP 1', true,1],
-            ['TVP 2', true,1],
-            ['Polsat', true,1],
-            ['TVN', true,1],
-            ['TVN 7', true,1],
-            ['TV 4', true,1],
-            ['TV Puls',true,1],
-            ['Puls 2',true,1]
-            ]
+            content:[['Spis treści', false,0,'ProgramContents'],
+            ['TVP 1', true,1,'tvp1'],
+            ['TVP 2', true,1,'tvp2'],
+            ['Polsat', true,1,'polsat'],
+            ['TVN', true,1,'tvn'],
+            ['TVN 7', true,1,'tvn7'],
+            ['TV 4', true,1,'tv4'],
+            ['TV Puls',true,1,'tvpuls'],
+            ['Puls 2',true,1,'puls2']
+            ],
+            ProgramContents:[''],
+            tvp1:[''],
+            tvp2:[''],
+            polsat:[''],
+            tvn:[''],
+            tvn7:[''],
+            tv4:[''],
+            tvpuls:[''],
+            puls:[''],
             },
+            //DO ZROBIENIA
             Surveys:{
             title: 'Ankiety',
             range:[46,48],
-            content:[['Spis treści',false,2],['Ankieta miesiąca',true,3],
+            content:[['Spis treści',false,2,'SurveysContents'],['Ankieta miesiąca',true,3],
             ['Ankieta tygodniowa',true,3],
-            ]     
+            ],
+            SurveysContents:[],     
             },
             Announcements: {
             title: 'Ogłoszenia',    
             range: [49,55],
-            content:[['Spis treści',true,3],
+            content:[['Spis treści',true,3,'AnnouncementsContents'],
                 ['Ogłoszenia drobne',true,3],
                 ['Reklamy',true,3],
                 ['Ogłoszenia motoryzacyjne',true,3],
                 ['Praca',true,3],
                 ['Nekrologi',true,3],
                 ['Anonse towarzyskie',true,3],
-            ]   
+            ],
+            AnnouncementsContents:[],  
             }
         }
     },
@@ -139,9 +177,18 @@ export default createStore({
             state.pageState.maxPage = Math.ceil(state.pageState.contentArray.length/state.pageState.limitAtPage)
         },  
         setSubpageParameters(state,payload) {
+          console.log(payload)
             state.subpageState.subpageContent.contentArray = payload.key1
             state.subpageState.subpageContent.limitAtPage = payload.key2
-            state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+            if(payload.key2!=0)
+            {   
+                state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+            }
+            else
+            {
+                state.subpageState.subpageContent.maxPage = 1
+            }
+            
         },
         setPageNumber(state,value)
         {
@@ -149,7 +196,15 @@ export default createStore({
         },
         setSPageNumber(state,value)
         {
-            state.subpageState.subpageContent.sPageNumber = value
+            if(value)
+            {
+              state.subpageState.subpageContent.sPageNumber = value
+            }
+            else
+            {
+              state.subpageState.subpageContent.sPageNumber = 1
+            }
+            
         },
         setHasSubpage(state,value)
         {
@@ -164,6 +219,30 @@ export default createStore({
             console.log(payload);
             state.channelContents.News[payload.key1] = payload.key2 ;
         },
+        setChannelsContents()
+        {   
+
+            let allchannels = this.state.channelContents;
+            let x = 0
+            Object.keys(allchannels).forEach(element1 => {
+                let content = allchannels[element1].content;
+                let arrayContent = []
+                content.forEach( element2 => {
+                    if(content.indexOf(element2))
+                    {
+                        let ind = content.indexOf(element2)+allchannels[element1].range[0]
+                        let arr = [element2[0],ind]
+                        arrayContent.push(arr)
+                    } 
+                    })
+                    if(x>1)
+                    {
+                        let str = element1+'Contents'
+                        allchannels[element1][str] = arrayContent
+                    }
+                    x++
+            })
+        },
         //----------------------CHANNEL CONTENTS 
         
         getCurrenciesData(state) {
@@ -172,6 +251,29 @@ export default createStore({
         },
     },
     actions: {
+        subpageContentLoader(state){
+        
+          let page = this.state.pageState.pageNumber
+        let allchannels = this.state.channelContents;
+        Object.keys(allchannels).forEach(element => {
+             if(page >= allchannels[element].range[0] && page <= allchannels[element].range[1])
+            {   
+                let index = page - allchannels[element].range[0];
+                if(allchannels[element].content[index])
+                {
+                this.state.subpageState.hasSubpages = allchannels[element].content[index][1];
+                let contentAr = allchannels[element].content[index][3]
+                    if(contentAr)
+                    {
+                        let payload = {'key1': allchannels[element][contentAr],'key2':allchannels[element].content[index][2]}
+                        state.commit('setSubpageParameters',payload);
+                        console.log("eee")
+                    }
+                }
+                    
+            }
+        })    
+        },
         //Currency Actions
         async getCurrenciesRate() {
             this.state.channelContents.CurrencyRates.currencies.forEach( async (element) =>  {
@@ -188,46 +290,62 @@ export default createStore({
         async getCurrenciesRateBuySell(){
             try {
                 const response = await axios.get('https://api.nbp.pl/api/exchangerates/tables/c/?format=json');
-                console.log(response.data.rates)
-                this.state.channelContents.CurrencyRates.currenciesBuySell = response.data.rates
+                console.log(response.data[0].rates)
+                this.state.channelContents.CurrencyRates.currenciesBuySell = response.data[0].rates
               } catch (error) {
                 console.log(error)
               }
                   
         },
+        async getGoldPrices(){
+            try {
+                const response = await axios.get('http://api.nbp.pl/api/cenyzlota/last/30/?format=json');
+                console.log(response.data)
+                this.state.channelContents.CurrencyRates.goldPrice = response.data
+              } catch (error) {
+                console.log(error)
+              }      
+        },
+        //https://metals-api.com/api/latest?access_key=btoe8y52ao0dnlsy2o40a5el13gq55pg20wmvwom6x726da2y816z4vtb3xn&base=USD&symbols=XAG%2CXPD%2CXPT%2CXRH%2CALU%2CNI%2CZNC%2CTIN%2CLCO%2CIRD%2C+LEAD%2C+IRON%2CURANIUM%2CBRONZE%2CMG%2COSMIUM%2CLITHIUM%09%09
+        async getMetalPrices(){
+            try {
+                const response = await axios.get('https://metals-api.com/api/latest?access_key=btoe8y52ao0dnlsy2o40a5el13gq55pg20wmvwom6x726da2y816z4vtb3xn&base=USD&symbols=XAG%2CXPD%2CXPT%2CXRH%2CALU%2CNI%2CZNC%2CTIN%2CLCO%2CIRD%2C+LEAD%2C+IRON%2CURANIUM%2CBRONZE%2CMG%2COSMIUM%2CLITHIUM%09%09');
+                console.log(response)
+                this.state.channelContents.CurrencyRates.metals = Object.entries(response.data.rates)
+
+              } catch (error) {
+                console.log(error)
+              }      
+        },
+        //News Actions------------------------------------------------------------------------
         getArticle(state, element)
         {
-            const { JSDOM } = require('jsdom');
-            const { Readability } = require('@mozilla/readability');
-            let art = []
-                 axios.get(element.link).then( function(r2) {
-                    let dom = new JSDOM(r2.data, {
-                      url: element.link
-                    });
-                    let article = new Readability(dom.window.document).parse();
-                    let str = article.textContent;
-                    str = str.trim();
-                    str = str.replace(/\s{2,}/g, ' ');
-                    
+            let art = [];  
+            let str;      
+                if(element.description == null)
+                {
+                    str= element.content
+                }
+                else 
+                {
+                    str = element.description
+                }
                     art.push(element.title,str)                 
-                })
-        
             return art   
         },
         getNews(state,category) {
             const axios = require('axios');
-            
             let arts=[]
             let url = 'https://newsdata.io/api/1/news?apikey=pub_14248fa3072e0487f10e233cb311fd8a89144&language=pl&category='+category;
             axios.get(url).then(  function(r1) {
               let results = []
               for(let i=0;i<5;i++)
               {
-                let str = r1.data.results[i];
+                let str = r1.data.results[i+2];
                 results.push(str);
               }
-              results.forEach(  async  element => {
-                let art = await state.dispatch('getArticle',element);
+              results.forEach( element => {
+                let art = state.dispatch('getArticle',element);
                 arts.push(art);
                 if(arts.length==results.length)
                 {
@@ -278,7 +396,9 @@ export default createStore({
         },
         SubPagination(state)
         {
-          if(state.subpageState.subpageContent.sPageNumber == 1)
+          if(state.subpageState.subpageContent.limitAtPage > 0)
+          {
+            if(state.subpageState.subpageContent.sPageNumber == 1)
           {
             return state.subpageState.subpageContent.contentArray.slice(0,state.subpageState.subpageContent.limitAtPage)
           }
@@ -289,12 +409,19 @@ export default createStore({
           else
           {
             const begin = state.subpageState.subpageContent.sPageNumber*state.subpageState.subpageContent.limitAtPage-state.subpageState.subpageContent.limitAtPage
-            const end = begin + state.subpageState.subpageContent.limitAtPage     
+            const end = begin + state.subpageState.subpageContent.limitAtPage
+            console.log()     
             return state.subpageState.subpageContent.contentArray.slice(begin,end)
           }
+          }
+          else
+          {
+            return state.subpageState.subpageContent.contentArray
+          }  
+          
           
         },
-        SubpaginationText(state,content)
+        SubpaginationText(state)
         {
             if(state.subpageState.subpageContent.sPageNumber == 1)
           {
@@ -324,7 +451,6 @@ export default createStore({
                 }
                 AllContents.push([state.channelContents[key].title,arrayContent,state.channelContents[key].range[0],]);
             });
-            console.log(AllContents)
             return AllContents
         }
     },

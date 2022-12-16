@@ -53,14 +53,26 @@ return{
   },
   name: 'TvScreen',
   created() {
+    this.$store.commit('getCurrenciesData'); 
+  this.$store.dispatch('getCurrenciesRateBuySell');
+  this.$store.dispatch('getCurrenciesRate');
+  this.$store.dispatch('getGoldPrices');
+  //this.$store.dispatch('getMetalPrices');
+    this.$store.commit('setChannelsContents'); 
     this.$watch(
       () => this.$route.params,
       () => {
-        this.$store.commit('setPageNumber',this.$route.params.page)
+        this.$store.commit('setPageNumber',this.$route.params.page);
         this.getChannels();
         this.getScreen();
+        this.$store.commit('setSPageNumber',this.$route.params.subpage);
+        
+       this.$store.dispatch('subpageContentLoader');
+       console.log(this.$store.state.subpageState.subpageContent.contentArray)
       }
     )
+    this.$store.dispatch('subpageContentLoader');
+    console.log("Page:"+this.$store.state.pageState.pageNumber+" Subpage:"+this.$store.state.subpageState.subpageContent.sPageNumber);
   },
   components: {
     TvContents, TvNews, TvCurrency, TvWelcomeScreen, TvNotFound,TvAnnouncements,TvCryptoCurrencies, TvProgram,TvSurveys,TvWeather
@@ -117,10 +129,10 @@ return{
       this.showWelcome= false,
       this.showContents= false,
       this.showCurrency= false,
-      this.showNews = true,
+      this.showNews = false,
       this.showNotFound= false
       this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
+      this.showCryptoCurrencies= true,
       this.showProgram=false,
       this.showSurveys=false,
       this.showWeather=false
@@ -205,10 +217,17 @@ return{
       }
     }
   },
+  beforeMount()
+  {
+    
+  },
   mounted() {
+     
   this.selectedChannel = this.$route.params.page;
   this.channelContents = this.$store.state.channelContents
   this.$store.commit('setPageNumber',this.$route.params.page)
+  this.$store.commit('setSPageNumber',this.$route.params.subpage);
+  this.$store.dispatch('subpageContentLoader');
   if(this.$route.params.subpage == null)
   {
     this.selectedChannelSubpage = 1

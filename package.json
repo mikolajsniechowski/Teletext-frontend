@@ -9,8 +9,22 @@
     "watch": "vue-cli-service build --watch --mode development"
   },
   "dependencies": {
+    "@mozilla/readability": "^0.4.2",
     "axios": "^1.1.3",
+    "browserify-fs": "^1.0.0",
+    "browserify-zlib": "^0.2.0",
     "core-js": "^3.8.3",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "jsdom": "^20.0.3",
+    "net-browserify": "^0.1.4",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "tls-browserify": "^0.2.2",
+    "util": "^0.12.5",
     "vue": "^3.2.13",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0"
@@ -37,6 +51,12 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {}
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false,
+    "child_process": false
   },
   "browserslist": [
     "> 1%",

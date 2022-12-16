@@ -1,5 +1,5 @@
 <template>
-    <h1 class="danger">EEEEEEEEEEEEEEBieżąca pogodaEEEEEEEEEEEEEEEEE</h1>
+    <h1 class="danger">EEEEEEEEEEEEEEkryptowalutyEEEEEEEEEEEEEEEEE</h1>
   <p>Podstrona nr: {{spageNumber}} </p>
 </template>
 <script>
