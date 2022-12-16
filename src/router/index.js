@@ -4,6 +4,7 @@ import TVScreen from "@/components/TVScreen";
 import LoginView from "@/views/LoginView";
 import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
+import AnnouncementFormView from "@/views/AnnouncementFormView";
 const routes = [
   {
     path: '/',
@@ -55,6 +56,11 @@ const routes = [
       path: "/profile",
       name: "profile",
       component: ProfileView
+    },
+    {
+      path: "/announcementform",
+      name: "AnnouncementFormView",
+      component: AnnouncementFormView
     }
 ]
 

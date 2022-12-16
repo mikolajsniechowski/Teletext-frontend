@@ -570,7 +570,7 @@ h6, .h6 {
             text-align:center;
 }
 
-input {
+input, textarea, select {
   display: block;
   margin: 10px;
   }
