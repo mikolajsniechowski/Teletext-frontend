@@ -39,6 +39,7 @@ a {
   margin: 0 auto;
   text-align: center;
   color:white;
+  font-size:14px;
 }
 .headerstyle {
   font-size: 2em;
@@ -47,4 +48,9 @@ a {
   text-align:center;
   display:inline-block;
   width:100%;
+}
+.tableweather{
+  display: block;
+    width: 100%;
+    overflow-x: auto;
 }

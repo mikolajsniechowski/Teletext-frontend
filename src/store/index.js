@@ -1,6 +1,7 @@
 import {createStore} from 'vuex'
 import axios from 'axios';
 import sourceDataCurrency from '@/datacurrency.json'
+import sourceDataWeather from '@/dataweather.json'
 
 
 export default createStore({
@@ -98,22 +99,23 @@ export default createStore({
             ['Wojewódzctwo łódzkie', true,2,'lodz'],
             ],
             WeatherContents:[],
-            lowersilesian:[''],
-            kuyavianPomeranian:[''],
-            lublin:[''],
-            lubusz:[''],
-            lodz:[''],
-            lesserPoland:[''],
-            masovian:[''],
-            opole:[''],
-            subcarpatian:[''],
-            podlaskie:[''],
-            pomeranian:[''],
-            silesian:[''],
-            holycross:[''],
-            warmianMasurian:[''],
-            greaterPoland:[''],
-            westPomeranian:['']
+            cities:[],
+            lowersilesian:[],
+            kuyavianPomeranian:[],
+            lublin:[],
+            lubusz:[],
+            lodz:[],
+            lesserPoland:[],
+            masovian:[],
+            opole:[],
+            subcarpatian:[],
+            podlaskie:[],
+            pomeranian:[],
+            silesian:[],
+            holycross:[],
+            warmianMasurian:[],
+            greaterPoland:[],
+            westPomeranian:[]
             },
             Program: {
             title: 'Program Tv',
@@ -169,7 +171,17 @@ export default createStore({
             const dateTime = date 
             this.state.currentDate = dateTime;      
           },
-    
+        setWeatherArrays(state){
+         let cities = state.channelContents.Weather.cities
+         cities.forEach( element => {
+          let region = element.region
+          console.log(region)
+          if(state.channelContents.Weather[region])
+          {
+            state.channelContents.Weather[region].push(element)
+          }
+         })
+        },  
         setPageParameters(state,payload){
             state.pageState.contentArray = payload.key1
             state.pageState.limitAtPage = payload.key2
@@ -216,7 +228,6 @@ export default createStore({
         },
         setNewsCategoryArray(state,payload)
         {
-            console.log(payload);
             state.channelContents.News[payload.key1] = payload.key2 ;
         },
         setChannelsContents()
@@ -247,8 +258,10 @@ export default createStore({
         
         getCurrenciesData(state) {
         state.channelContents.CurrencyRates.currencies= sourceDataCurrency.currencies;
-        console.log(state.channelContents.CurrencyRates.currencies);
         },
+        getWeatherData(state){
+          state.channelContents.Weather.cities = sourceDataWeather.cities;
+        }
     },
     actions: {
         subpageContentLoader(state){
@@ -267,7 +280,6 @@ export default createStore({
                     {
                         let payload = {'key1': allchannels[element][contentAr],'key2':allchannels[element].content[index][2]}
                         state.commit('setSubpageParameters',payload);
-                        console.log("eee")
                     }
                 }
                     
@@ -290,7 +302,6 @@ export default createStore({
         async getCurrenciesRateBuySell(){
             try {
                 const response = await axios.get('https://api.nbp.pl/api/exchangerates/tables/c/?format=json');
-                console.log(response.data[0].rates)
                 this.state.channelContents.CurrencyRates.currenciesBuySell = response.data[0].rates
               } catch (error) {
                 console.log(error)
@@ -300,7 +311,6 @@ export default createStore({
         async getGoldPrices(){
             try {
                 const response = await axios.get('http://api.nbp.pl/api/cenyzlota/last/30/?format=json');
-                console.log(response.data)
                 this.state.channelContents.CurrencyRates.goldPrice = response.data
               } catch (error) {
                 console.log(error)
@@ -321,16 +331,16 @@ export default createStore({
         getArticle(state, element)
         {
             let art = [];  
-            let str;      
-                if(element.description == null)
+            let str;   
+                if(element.description)
                 {
-                    str= element.content
+                    str= element.description
                 }
                 else 
                 {
-                    str = element.description
+                    str = element.content
                 }
-                    art.push(element.title,str)                 
+                    art.push(element.title,str)
             return art   
         },
         getNews(state,category) {
@@ -344,21 +354,56 @@ export default createStore({
                 let str = r1.data.results[i+2];
                 results.push(str);
               }
-              results.forEach( element => {
+              results.forEach( element =>
+                 {
                 let art = state.dispatch('getArticle',element);
                 arts.push(art);
+               
                 if(arts.length==results.length)
                 {
-                    const payload = {key1: category+'News',key2:arts};
+                  let arts2 = []
+                  Promise.all(arts).then( value => { arts2.push(value)})
+                  console.log(arts2)
+                    const payload = {key1: category+'News',key2:arts2};
                           state.commit('setNewsCategoryArray',payload);
                 }
               })
             })
             
-        }
+        },
+        //Weather Actions
+        async getWeatherParams() {
+          this.state.channelContents.Weather.cities.forEach( async (element) =>  {
+              try {
+                  const response = await axios.get('https://api.weatherapi.com/v1/forecast.json?key=5f6d2e0b27d24499bda181140221612&q='+element.slug+'&hour=12&lang=pl&days=3');
+                  let days = response.data.forecast.forecastday
+                  //console.log(days)
+                  let cityparams = []
+                  let i=0
+                  let daynames = ['dziś','jutro','pojutrze']
+                  days.forEach( day => {
+                  let dayparams = {}
+                  dayparams.dayname = daynames[i]
+                  dayparams.mintemp = day.day.mintemp_c
+                  dayparams.maxtemp = day.day.maxtemp_c
+                  dayparams.avgtemp = day.day.avgtemp_c
+                  dayparams.maxwind = day.day.maxwind_kph
+                  dayparams.chances = String(day.day.daily_chance_of_rain)+'%/'+String(day.day.daily_chance_of_snow)+"%"
+                  dayparams.conditions = day.day.condition.text
+                  cityparams.push(dayparams) 
+                  i++
+                })
+                  //console.log(cityparams)
+                  element.params = cityparams
+                } catch (error) {
+                  console.log(error);
+                  element.rate = 'BRAK DANYCH'  
+                }
+          });
+      },
     },
     getters: {
-        getAllText(state, textarray)
+        TextJoin(state, textarray)
         {
             let text = "";
             textarray.forEach( element => {
@@ -409,8 +454,7 @@ export default createStore({
           else
           {
             const begin = state.subpageState.subpageContent.sPageNumber*state.subpageState.subpageContent.limitAtPage-state.subpageState.subpageContent.limitAtPage
-            const end = begin + state.subpageState.subpageContent.limitAtPage
-            console.log()     
+            const end = begin + state.subpageState.subpageContent.limitAtPage   
             return state.subpageState.subpageContent.contentArray.slice(begin,end)
           }
           }
@@ -423,19 +467,22 @@ export default createStore({
         },
         SubpaginationText(state)
         {
+          let textarr = state.subpageState.subpageContent.contentArray;
+          textarr = this.getters.TextJoin(textarr);
+          console.log(textarr);
             if(state.subpageState.subpageContent.sPageNumber == 1)
           {
-            return state.subpageState.subpageContent.contentArray.slice(0,state.subpageState.subpageContent.limitDigitsAtPage)
+            return textarr.slice(0,state.subpageState.subpageContent.limitDigitsAtPage)
           }
           else if(state.subpageState.subpageContent.sPageNumber == 2)
           {
-            return state.subpageState.subpageContent.contentArray.slice(state.subpageState.subpageContent.limitDigitsAtPage,state.subpageState.subpageContent.limitDigitsAtPage*2)     
+            return textarr.slice(state.subpageState.subpageContent.limitDigitsAtPage,state.subpageState.subpageContent.limitDigitsAtPage*2)     
           } 
           else
           {
             const begin = state.subpageState.subpageContent.sPageNumber*state.subpageState.subpageContent.limitDigitsAtPage-state.subpageState.subpageContent.limitDigitsAtPage
             const end = begin + state.subpageState.subpageContent.limitDigitsAtPage     
-            return state.subpageState.subpageContent.contentArray.slice(begin,end)
+            return textarr.slice(begin,end)
           }
         },
         getContents(state) //Returns Contents from ChannelContents

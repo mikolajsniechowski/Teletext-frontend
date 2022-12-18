@@ -1,6 +1,22 @@
 <template>
     <h1 class="danger">Bieżące aktualności</h1>
-  <p>Podstrona nr: {{spageNumber}} </p>
+    <div v-if="this.$route.params.page == $store.state.channelContents.News.range[0]">
+    <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item">
+      <div class="col">
+        <p>{{item[0]}} </p>
+      </div>
+      <div class="col">
+        {{item[1]}}
+      </div> 
+  </div>
+  </div>
+  <div v-if="this.$route.params.page == $store.state.channelContents.News.range[0]+1">
+    <div v-for="(item) in $store.getters.SubPaginationText" class="row" :key="item">
+      <div class="col">
+        <p>{{item}} </p>
+      </div>
+  </div>
+  </div>
 </template>
 <script>
 export default {
@@ -25,10 +41,7 @@ export default {
         }
       }
     )
-    
-   
-    setTimeout(function(){},1000);
-    console.log(this.$store.state.channelContents.News.topNews);
+    this.$store.getters
   },
   mounted() {
     let temp = this.$route.params.subpage
@@ -40,13 +53,7 @@ export default {
     {
       this.spageNumber = this.$route.params.subpage;
     }
-    this.$store.dispatch('getNews','top');
-    this.$store.dispatch('getNews','health');
-    this.$store.dispatch('getNews','science');
-    this.$store.dispatch('getNews','business');
-    this.$store.dispatch('getNews','entertainment');
-    this.$store.dispatch('getNews','sports');
-    this.$store.dispatch('getNews','technology');  
+    
   }
 }
 </script>
