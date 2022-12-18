@@ -1,0 +1,388 @@
+{
+    "cities": [
+    {
+        "region":"lowersilesian",
+        "city": "Legnica",
+        "slug": "Legnica",
+        "params":[]
+    },
+    {
+        "region":"lowersilesian",
+        "city": "Wrocław",
+        "slug": "Wroclaw",
+        "params":[]
+    },
+    {
+        "region":"lowersilesian",
+        "city": "Jelenia Góra",
+        "slug": "Jelenia Gora",
+        "params":[]
+    },
+    {
+        "region":"lowersilesian",
+        "city": "Lubin",
+        "slug": "Lubin",
+        "params":[]
+    },
+    {
+        "region":"kuyavianPomeranian",
+        "city": "Bydgoszcz",
+        "slug": "Bydgoszcz",
+        "params":[]
+    },
+    {
+        "region":"kuyavianPomeranian",
+        "city": "Toruń",
+        "slug": "Torun",
+        "params":[]
+    },
+    {
+        "region":"kuyavianPomeranian",
+        "city": "Włocławek",
+        "slug": "Wloclawek",
+        "params":[]
+    },
+    {
+        "region":"kuyavianPomeranian",
+        "city": "Grudziądz",
+        "slug": "Grudziadz",
+        "params":[]
+    },
+    {
+        "region":"lublin",
+        "city": "Lublin",
+        "slug": "Lublin",
+        "params":[]
+    },
+    {
+        "region":"lublin",
+        "city": "Chełm",
+        "slug": "Chelm",
+        "params":[]
+    },
+    {
+        "region":"lublin",
+        "city": "Zamość",
+        "slug": "Zamosc",
+        "params":[]
+    },
+    {
+        "region":"lublin",
+        "city": "Puławy",
+        "slug": "Pulawy",
+        "params":[]
+    },
+    {
+        "region":"lubusz",
+        "city": "Zielona Góra",
+        "slug": "Zielona Gora",
+        "params":[]
+    },
+    {
+        "region":"lubusz",
+        "city": "Gorzów Wlkp",
+        "slug": "Gorzow Wielkopolski",
+        "params":[]
+    },
+    {
+        "region":"lubusz",
+        "city": "Żagań",
+        "slug": "Zagan",
+        "params":[]
+    },
+    {
+        "region":"lubusz",
+        "city": "Nowa Sól",
+        "slug": "Nowa Sol",
+        "params":[]
+    },
+    {
+        "region":"lodz",
+        "city": "Łódź",
+        "slug": "Lodz",
+        "params":[]
+    },
+    {
+        "region":"lodz",
+        "city": "Piotrków Tryb.",
+        "slug": "Piotrkow Trybunalski",
+        "params":[]
+    },
+    {
+        "region":"lodz",
+        "city": "Pabianice",
+        "slug": "Pabianice",
+        "params":[]
+    },
+    {
+        "region":"lodz",
+        "city": "Zgierz",
+        "slug": "Zgierz",
+        "params":[]
+    },
+    {
+        "region":"lesserPoland",
+        "city": "Kraków",
+        "slug": "Krakow",
+        "params":[]
+    },
+    {
+        "region":"lesserPoland",
+        "city": "Tarnów",
+        "slug": "Tarnow",
+        "params":[]
+    },
+    {
+        "region":"lesserPoland",
+        "city": "Oświęcim",
+        "slug": "Oswiecim",
+        "params":[]
+    },
+    {
+        "region":"lesserPoland",
+        "city": "Wadowice",
+        "slug": "Wadowice",
+        "params":[]
+    },
+    {
+        "region":"masovian",
+        "city": "Warszawa",
+        "slug": "Warszawa",
+        "params":[]
+    },
+    {
+        "region":"masovian",
+        "city": "Radom",
+        "slug": "Radom",
+        "params":[]
+    },
+    {
+        "region":"masovian",
+        "city": "Siedlce",
+        "slug": "Siedlce",
+        "params":[]
+    },
+    {
+        "region":"masovian",
+        "city": "Piaseczno",
+        "slug": "Piaseczno",
+        "params":[]
+    },
+    {
+        "region":"opole",
+        "city": "Opole",
+        "slug": "Opole",
+        "params":[]
+    },
+    {
+        "region":"opole",
+        "city": "Nysa",
+        "slug": "Nysa",
+        "params":[]
+    },
+    {
+        "region":"opole",
+        "city": "Brzeg",
+        "slug": "Brzeg",
+        "params":[]
+    },
+    {
+        "region":"opole",
+        "city": "Namysłów",
+        "slug": "Namyslow",
+        "params":[]
+    },
+    {
+        "region":"subcarpatian",
+        "city": "Rzeszów",
+        "slug": "Rzeszow",
+        "params":[]
+    },
+    {
+        "region":"subcarpatian",
+        "city": "Tarnobrzeg",
+        "slug": "Tarnobrzeg",
+        "params":[]
+    },
+    {
+        "region":"subcarpatian",
+        "city": "Mielec",
+        "slug": "Mielec",
+        "params":[]
+    },
+    {
+        "region":"subcarpatian",
+        "city": "Krosno",
+        "slug": "Krosno",
+        "params":[]
+    },
+    {
+        "region":"podlaskie",
+        "city": "Białystok",
+        "slug": "Bialystok",
+        "params":[]
+    },
+    {
+        "region":"podlaskie",
+        "city": "Suwałki",
+        "slug": "Suwalki",
+        "params":[]
+    },
+    {
+        "region":"podlaskie",
+        "city": "Łomża",
+        "slug": "Lomza",
+        "params":[]
+    },
+    {
+        "region":"podlaskie",
+        "city": "Augustów",
+        "slug": "Augustow",
+        "params":[]
+    },
+    {
+        "region":"pomeranian",
+        "city": "Gdańsk",
+        "slug": "Gdansk",
+        "params":[]
+    },
+    {
+        "region":"pomeranian",
+        "city": "Gdynia",
+        "slug": "Gdynia",
+        "params":[]
+    },
+    {
+        "region":"pomeranian",
+        "city": "Sopot",
+        "slug": "Sopot",
+        "params":[]
+    },
+    {
+        "region":"pomeranian",
+        "city": "Słupsk",
+        "slug": "Slupsk",
+        "params":[]
+    },
+    {
+        "region":"silesian",
+        "city": "Katowice",
+        "slug": "Katowice",
+        "params":[]
+    },
+    {
+        "region":"silesian",
+        "city": "Rybnik",
+        "slug": "Rybnik",
+        "params":[]
+    },
+    {
+        "region":"silesian",
+        "city": "Częstochowa",
+        "slug": "Czestochowa",
+        "params":[]
+    },
+    {
+        "region":"silesian",
+        "city": "Sosnowiec",
+        "slug": "Sosnowiec",
+        "params":[]
+    },
+    {
+        "region":"holycross",
+        "city": "Kielce",
+        "slug": "Kielce",
+        "params":[]
+    },
+    {
+        "region":"holycross",
+        "city": "Starachowice",
+        "slug": "Starachowice",
+        "params":[]
+    },
+    {
+        "region":"holycross",
+        "city": "Sandomierz",
+        "slug": "Sandomierz",
+        "params":[]
+    },
+    {
+        "region":"holycross",
+        "city": "Końskie",
+        "slug": "Konskie",
+        "params":[]
+    },
+    {
+        "region":"warmianMasurian",
+        "city": "Olsztyn",
+        "slug": "Olsztyn",
+        "params":[]
+    },
+    {
+        "region":"warmianMasurian",
+        "city": "Elbląg",
+        "slug": "Elblag",
+        "params":[]
+    },
+    {
+        "region":"warmianMasurian",
+        "city": "Ełk",
+        "slug": "Elk",
+        "params":[]
+    },
+    {
+        "region":"warmianMasurian",
+        "city": "Iława",
+        "slug": "Ilawa",
+        "params":[]
+    },
+    {
+        "region":"greaterPoland",
+        "city": "Kalisz",
+        "slug": "Kalisz",
+        "params":[]
+    },
+    {
+        "region":"greaterPoland",
+        "city": "Konin",
+        "slug": "Konin",
+        "params":[]
+    },
+    {
+        "region":"greaterPoland",
+        "city": "Leszno",
+        "slug": "Leszno",
+        "params":[]
+    },
+    {
+        "region":"greaterPoland",
+        "city": "Poznań",
+        "slug": "Poznan",
+        "params":[]
+    },
+    {
+        "region":"westPomeranian",
+        "city": "Szczecin",
+        "slug": "Szczecin",
+        "params":[]
+    },
+    {
+        "region":"westPomeranian",
+        "city": "Świnoujście",
+        "slug": "Swinoujscie",
+        "params":[]
+    },
+    {
+        "region":"westPomeranian",
+        "city": "Kołobrzeg",
+        "slug": "Kolobrzeg",
+        "params":[]
+    },
+    {
+        "region":"westPomeranian",
+        "city": "Koszalin",
+        "slug": "Koszalin",
+        "params":[]
+    }
+    ]
+}

@@ -11,12 +11,22 @@
     </div>
   </div>
   <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]">
+    <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item">
+      <div class="col">
+        <p>{{item[0]}} </p>
+      </div>
+      <div class="col">
+        {{item[1]}}
+      </div> 
+  </div>
+  </div>
+  <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+1">
     <div class="row">
       <div class="col">
         <p>Waluta </p>
       </div>
       <div class="col">
-        <p>Średni Kurs</p>
+        <p>Kurs</p>
       </div>
     </div>
     <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item.id">
@@ -26,9 +36,9 @@
       <div class="col">
         {{item.rate}}
       </div> 
+    </div>
   </div>
-  </div>
-  <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+1">
+  <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+2">
     <div class="row">
       <div class="col">
         <p>Waluta </p>
@@ -42,18 +52,55 @@
     </div>
     <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item.id">
       <div class="col">
-        <p>{{item.name}} </p>
+        <p>{{item.currency}} </p>
       </div>
       <div class="col">
-        {{item.buy}}
-      </div>
+        {{item.ask}}
+      </div> 
       <div class="col">
-        {{item.sell}}
-      </div>  
+        {{item.bid}}
+      </div> 
+    </div>
   </div>
+  <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+3">
+    <div class="row">
+      <div class="col">
+        <p>Data </p>
+      </div>
+      <div class="col">
+        <p>Cena</p>
+      </div>
+    </div>
+    <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item.id">
+      <div class="col">
+        <p>{{item.data}} </p>
+      </div>
+      <div class="col">
+        {{item.cena}}
+      </div> 
+    </div>
+  </div>
+  <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+4">
+    <div class="row">
+      <div class="col">
+        <p>Symbol Podłącz API CIECIU</p>
+      </div>
+      <div class="col">
+        <p>Cena ($)</p>
+      </div>
+    </div>
+    <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item.id">
+      <div class="col">
+        <p>{{item[0]}} 
+        </p>
+      </div>
+      <div class="col">
+        {{item[1]}}
+      </div> 
+    </div>
   </div>
   <div class="align-self-end">
-    <p> Na podstawie informacji z API NBP</p>
+    <p> Na podstawie informacji z API NBP oraz Metals-API</p>
   </div>
   </div>
 </template>
@@ -83,13 +130,8 @@ created() {
         this.$store.commit('setSPageNumber',this.spageNumber)
       }
     }
-  ),
-  this.$store.commit('getCurrenciesData'); //PRZENNIEŚĆ DO TVSCREEN Z INNYMI
-  this.$store.dispatch('getCurrenciesRateBuySell')
-  this.$store.dispatch('getCurrenciesRate') ;
-  const payload = {'key1': this.$store.state.channelContents.CurrencyRates.currencies,'key2':this.limitAtPage} 
-  this.$store.commit('setSubpageParameters',payload)
-  this.$store.commit('setHasSubpage',true)
+  )
+ 
   
 },
 mounted() {
