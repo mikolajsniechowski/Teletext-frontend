@@ -11,9 +11,9 @@
   </div>
   </div>
   <div v-if="this.$route.params.page == $store.state.channelContents.News.range[0]+1">
-    <div v-for="(item) in $store.getters.SubPaginationText" class="row" :key="item">
-      <div class="col">
-        <p>{{item}} </p>
+    <div class="row" >
+      <div style="white-space: pre-wrap;" class="col">
+       {{$store.getters.SubPaginationText}} 
       </div>
   </div>
   </div>
