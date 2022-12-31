@@ -1,5 +1,5 @@
 <template>
-    <h1 class="danger">Bieżąca pogoda</h1>
+    <h1 class="danger">{{ $store.state.subpageState.subpageContent.title }}</h1>
     <div v-if="this.$route.params.page == $store.state.channelContents.Weather.range[0]">
     <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item">
       <div class="col-10">

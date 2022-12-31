@@ -1,5 +1,5 @@
 <template>
-    <h1 class="danger">Kryptowaluty - kurs</h1>
+    <h1 class="danger">{{ $store.state.subpageState.subpageContent.title }}</h1>
 <div v-if="this.$route.params.page == this.$store.state.channelContents.CryptoRates.range[0]" >
     <div class="row">
       <div class="col">

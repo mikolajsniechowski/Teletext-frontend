@@ -22,7 +22,8 @@ export default createStore({
                 sPageNumber:1,
                 contentArray: null,
                 limitAtPage:3,
-                limitDigitsAtPage:600,      
+                limitDigitsAtPage:600,
+                title:null,      
             }
         },
         channelContents: {
@@ -145,23 +146,31 @@ export default createStore({
             Surveys:{
             title: 'Ankiety',
             range:[46,48],
-            content:[['Spis treści',false,2,'SurveysContents'],['Ankieta miesiąca',true,3],
-            ['Ankieta tygodniowa',true,3],
+            content:[['Spis treści',false,2,'SurveysContents'],['Ankieta miesiąca',true,3,'SurveysMonthly'],
+            ['Ankieta tygodniowa',true,3,'SurveysWeekly'],
             ],
-            SurveysContents:[],     
+            SurveysContents:['zzzz'],
+            SurveysMonthly:['ccc'],
+            SurveysWeekly:['bbb'],     
             },
             Announcements: {
             title: 'Ogłoszenia',    
             range: [49,55],
-            content:[['Spis treści',true,3,'AnnouncementsContents'],
-                ['Ogłoszenia drobne',true,3],
-                ['Reklamy',true,3],
-                ['Ogłoszenia motoryzacyjne',true,3],
-                ['Praca',true,3],
-                ['Nekrologi',true,3],
-                ['Anonse towarzyskie',true,3],
+            content:[['Spis treści',false,10,'AnnouncementsContents'],
+                ['Ogłoszenia drobne',true,3,'SmallAnnouncements'],
+                ['Reklamy',true,3,'Advertisements'],
+                ['Ogłoszenia motoryzacyjne',true,3,'CarAnnouncements'],
+                ['Praca',true,3,'WorkAnnouncemetns'],
+                ['Nekrologi',true,3,'Necrology'],
+                ['Anonse towarzyskie',true,3,'Acquaintances'],
             ],
-            AnnouncementsContents:[],  
+            AnnouncementsContents:[],
+            SmallAnnouncements:['zzz'],
+            Advertisements:['fff'],
+            CarAnnouncements:['xyz'],
+            WorkAnnouncemetns:['pa'],
+            Necrology:['aaa'],
+            Acquaintances:['zyz']
             }
         }
     },
@@ -190,12 +199,21 @@ export default createStore({
             state.pageState.maxPage = Math.ceil(state.pageState.contentArray.length/state.pageState.limitAtPage)
         },  
         setSubpageParameters(state,payload) {
-          //console.log(payload)
+          console.log(payload)
             state.subpageState.subpageContent.contentArray = payload.key1
             state.subpageState.subpageContent.limitAtPage = payload.key2
+            state.subpageState.subpageContent.title = payload.key3
+            state.subpageState.hasSubpages = payload.key4
             if(payload.key2!=0)
             {   
-                state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+                if(Array.isArray(payload.key1))
+                {
+                  state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+                }
+                else
+                {
+                  state.subpageState.subpageContent.maxPage = Math.ceil(Object.keys(state.subpageState.subpageContent.contentArray).length/state.subpageState.subpageContent.limitAtPage)
+                }
             }
             else
             {
@@ -285,9 +303,10 @@ export default createStore({
                 {
                 this.state.subpageState.hasSubpages = allchannels[element].content[index][1];
                 let contentAr = allchannels[element].content[index][3]
+                console.log(contentAr)
                     if(contentAr)
                     {
-                        let payload = {'key1': allchannels[element][contentAr],'key2':allchannels[element].content[index][2]}
+                        let payload = {'key1': allchannels[element][contentAr],'key2':allchannels[element].content[index][2], 'key3':allchannels[element].content[index][0],'key4':allchannels[element].content[index][1]}
                         state.commit('setSubpageParameters',payload);
                     }
                 }
@@ -482,6 +501,7 @@ export default createStore({
           let textarr = state.subpageState.subpageContent.contentArray[0];
           let text = "";
           textarr.forEach( element => {
+              text+="⚪"
               text+=element[0];
               text+="\n\n";
               text+=element[1];
@@ -506,22 +526,15 @@ export default createStore({
           {
             let spage = state.subpageState.subpageContent.sPageNumber
             let limit = state.subpageState.subpageContent.limitDigitsAtPage
-            //begin = state.subpageState.subpageContent.sPageNumber-2*state.subpageState.subpageContent.limitDigitsAtPage-state.subpageState.subpageContent.limitDigitsAtPage
-            begin=0;
-            end =0;
-            let i=0;
             let z
             let x
-            while(i<spage-1)
-            {
-               z = text.slice(begin,begin+limit);
+               z = text.slice(0,limit*(spage-1));
               begin = z.lastIndexOf(" ");
-              console.log(begin+" "+end);
-              x = text.slice(0,begin+limit);
+              console.log(begin+" 1 "+end);
+              x = text.slice(0,(limit*(spage-1)+limit));
             end = x.lastIndexOf(" ");
-            console.log(begin+" "+end);
-            i++;
-            }    
+            console.log(begin+" 2 "+end);
+            
             
             return text.slice(begin,end);
           }

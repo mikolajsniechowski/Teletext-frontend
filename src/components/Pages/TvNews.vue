@@ -1,5 +1,5 @@
 <template>
-    <h1 class="danger">Bieżące aktualności</h1>
+    <h1 class="danger">{{ $store.state.subpageState.subpageContent.title }}</h1>
     <div v-if="this.$route.params.page == $store.state.channelContents.News.range[0]">
     <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item">
       <div class="col">
