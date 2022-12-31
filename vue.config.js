@@ -4,9 +4,9 @@ const pages = {
 const { defineConfig } = require("@vue/cli-service");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 module.exports = {  
-  publicPath: "/static/vue/",
-  outputDir: "./build/static/vue/",
-  indexPath: "../../templates/vue_index.html",
+  publicPath: "/",
+  outputDir: "dist",
+  indexPath: "index.html",
   
   pages: pages,  
   transpileDependencies: true,
