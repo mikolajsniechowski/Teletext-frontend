@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
     <div class="col">
-      <h1 class="bg-danger">Kursy walut</h1>
+      <h1 class="bg-danger">{{ $store.state.subpageState.subpageContent.title }}</h1>
     </div>
   </div>
   <div class="row">
@@ -83,7 +83,7 @@
   <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+4">
     <div class="row">
       <div class="col">
-        <p>Symbol Podłącz API CIECIU</p>
+        <p>Brak podłączenia do API</p>
       </div>
       <div class="col">
         <p>Cena ($)</p>
@@ -121,11 +121,9 @@ created() {
       if(this.$route.params.subpage == null )
       {
         this.spageNumber =1
-        this.$store.commit('setHasSubpage',true)
       }
       else
       {
-        this.$store.commit('setHasSubpage',true)
         this.spageNumber = this.$route.params.subpage
         this.$store.commit('setSPageNumber',this.spageNumber)
       }
@@ -140,13 +138,11 @@ mounted() {
   if(temp == null)
   {
     this.spageNumber = 1
-    this.$store.commit('setHasSubpage',true)
   }
   else
   {
     this.spageNumber = this.$route.params.subpage
     this.$store.commit('setSPageNumber',this.spageNumber)
-    this.$store.commit('setHasSubpage',true)
   }
 },
 unmounted() {

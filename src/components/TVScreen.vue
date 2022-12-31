@@ -57,11 +57,11 @@ return{
   this.$store.dispatch('getCurrenciesRateBuySell');
   this.$store.dispatch('getCurrenciesRate');
   this.$store.dispatch('getGoldPrices');
-  //this.$store.dispatch('getNews','top');
+  this.$store.dispatch('getNews','top');
   this.$store.commit('getWeatherData');
   this.$store.dispatch('getWeatherParams');
   /*  this.$store.dispatch('getNews','health');
-    this.$store.dispatch('getNews','science');
+  this.$store.dispatch('getNews','science');
     this.$store.dispatch('getNews','business');
     this.$store.dispatch('getNews','entertainment');
     this.$store.dispatch('getNews','sports');

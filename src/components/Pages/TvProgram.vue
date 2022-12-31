@@ -1,5 +1,5 @@
 <template>
-    <h1 class="danger">EEEEEEEEEEEEEEProgramEEEEEEEEEEEEEEEEE</h1>
+    <h1 class="danger">{{ $store.state.subpageState.subpageContent.title }}</h1>
   <p>Podstrona nr: {{spageNumber}} </p>
 </template>
 <script>

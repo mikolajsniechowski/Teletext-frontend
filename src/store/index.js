@@ -2,7 +2,7 @@ import {createStore} from 'vuex'
 import axios from 'axios';
 import sourceDataCurrency from '@/datacurrency.json'
 import sourceDataWeather from '@/dataweather.json'
-
+import CoinpaprikaAPI from '@coinpaprika/api-nodejs-client'
 
 export default createStore({
     state: {
@@ -13,7 +13,7 @@ export default createStore({
             startPage:1,
             contentArray: null,
             limitAtPage:3,
-            limitDigitsAtPage:300,   
+              
         },
         subpageState: {
             hasSubpages:false,
@@ -21,7 +21,9 @@ export default createStore({
                 maxPage:0,
                 sPageNumber:1,
                 contentArray: null,
-                limitAtPage:3,     
+                limitAtPage:3,
+                limitDigitsAtPage:600,
+                title:null,      
             }
         },
         channelContents: {
@@ -52,9 +54,9 @@ export default createStore({
             CryptoRates: {
             title: 'Kursy Kryptowalut',    
             range: [11,12], 
-            content:[['Cena bitcoin', false,0,'bitcoinPrice'],['Cena 10 najważniejszych altcoinów', false,0,'altcoinsPrices']],
-            bitcoinPrice:[''],
-            altcoinsPrices:[''],
+            content:[['Bitcoin Informacje', false,10,'bitcoinInfo'],['Parametry całego rynku kryptowalut', false,10,'globalInfo']],
+            bitcoinInfo:[''],
+            globalInfo:[''],
             CryptoRatesContents:[], //FEJK
             },
             News: {
@@ -144,23 +146,31 @@ export default createStore({
             Surveys:{
             title: 'Ankiety',
             range:[46,48],
-            content:[['Spis treści',false,2,'SurveysContents'],['Ankieta miesiąca',true,3],
-            ['Ankieta tygodniowa',true,3],
+            content:[['Spis treści',false,2,'SurveysContents'],['Ankieta miesiąca',true,3,'SurveysMonthly'],
+            ['Ankieta tygodniowa',true,3,'SurveysWeekly'],
             ],
-            SurveysContents:[],     
+            SurveysContents:['zzzz'],
+            SurveysMonthly:['ccc'],
+            SurveysWeekly:['bbb'],     
             },
             Announcements: {
             title: 'Ogłoszenia',    
             range: [49,55],
-            content:[['Spis treści',true,3,'AnnouncementsContents'],
-                ['Ogłoszenia drobne',true,3],
-                ['Reklamy',true,3],
-                ['Ogłoszenia motoryzacyjne',true,3],
-                ['Praca',true,3],
-                ['Nekrologi',true,3],
-                ['Anonse towarzyskie',true,3],
+            content:[['Spis treści',false,10,'AnnouncementsContents'],
+                ['Ogłoszenia drobne',true,3,'SmallAnnouncements'],
+                ['Reklamy',true,3,'Advertisements'],
+                ['Ogłoszenia motoryzacyjne',true,3,'CarAnnouncements'],
+                ['Praca',true,3,'WorkAnnouncemetns'],
+                ['Nekrologi',true,3,'Necrology'],
+                ['Anonse towarzyskie',true,3,'Acquaintances'],
             ],
-            AnnouncementsContents:[],  
+            AnnouncementsContents:[],
+            SmallAnnouncements:['zzz'],
+            Advertisements:['fff'],
+            CarAnnouncements:['xyz'],
+            WorkAnnouncemetns:['pa'],
+            Necrology:['aaa'],
+            Acquaintances:['zyz']
             }
         }
     },
@@ -175,7 +185,7 @@ export default createStore({
          let cities = state.channelContents.Weather.cities
          cities.forEach( element => {
           let region = element.region
-          console.log(region)
+          //console.log(region)
           if(state.channelContents.Weather[region])
           {
             state.channelContents.Weather[region].push(element)
@@ -192,9 +202,18 @@ export default createStore({
           console.log(payload)
             state.subpageState.subpageContent.contentArray = payload.key1
             state.subpageState.subpageContent.limitAtPage = payload.key2
+            state.subpageState.subpageContent.title = payload.key3
+            state.subpageState.hasSubpages = payload.key4
             if(payload.key2!=0)
             {   
-                state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+                if(Array.isArray(payload.key1))
+                {
+                  state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+                }
+                else
+                {
+                  state.subpageState.subpageContent.maxPage = Math.ceil(Object.keys(state.subpageState.subpageContent.contentArray).length/state.subpageState.subpageContent.limitAtPage)
+                }
             }
             else
             {
@@ -229,6 +248,14 @@ export default createStore({
         setNewsCategoryArray(state,payload)
         {
             state.channelContents.News[payload.key1] = payload.key2 ;
+        },
+        setBitcoinInfo(state,payload)
+        {
+          state.channelContents.CryptoRates.bitcoinInfo = payload;
+        },
+        setGlobalInfo(state,payload)
+        {
+          state.channelContents.CryptoRates.globalInfo = payload;
         },
         setChannelsContents()
         {   
@@ -276,9 +303,10 @@ export default createStore({
                 {
                 this.state.subpageState.hasSubpages = allchannels[element].content[index][1];
                 let contentAr = allchannels[element].content[index][3]
+                console.log(contentAr)
                     if(contentAr)
                     {
-                        let payload = {'key1': allchannels[element][contentAr],'key2':allchannels[element].content[index][2]}
+                        let payload = {'key1': allchannels[element][contentAr],'key2':allchannels[element].content[index][2], 'key3':allchannels[element].content[index][0],'key4':allchannels[element].content[index][1]}
                         state.commit('setSubpageParameters',payload);
                     }
                 }
@@ -305,8 +333,7 @@ export default createStore({
                 this.state.channelContents.CurrencyRates.currenciesBuySell = response.data[0].rates
               } catch (error) {
                 console.log(error)
-              }
-                  
+              }         
         },
         async getGoldPrices(){
             try {
@@ -316,7 +343,6 @@ export default createStore({
                 console.log(error)
               }      
         },
-        //https://metals-api.com/api/latest?access_key=btoe8y52ao0dnlsy2o40a5el13gq55pg20wmvwom6x726da2y816z4vtb3xn&base=USD&symbols=XAG%2CXPD%2CXPT%2CXRH%2CALU%2CNI%2CZNC%2CTIN%2CLCO%2CIRD%2C+LEAD%2C+IRON%2CURANIUM%2CBRONZE%2CMG%2COSMIUM%2CLITHIUM%09%09
         async getMetalPrices(){
             try {
                 const response = await axios.get('https://metals-api.com/api/latest?access_key=btoe8y52ao0dnlsy2o40a5el13gq55pg20wmvwom6x726da2y816z4vtb3xn&base=USD&symbols=XAG%2CXPD%2CXPT%2CXRH%2CALU%2CNI%2CZNC%2CTIN%2CLCO%2CIRD%2C+LEAD%2C+IRON%2CURANIUM%2CBRONZE%2CMG%2COSMIUM%2CLITHIUM%09%09');
@@ -327,6 +353,21 @@ export default createStore({
                 console.log(error)
               }      
         },
+
+        //Cryptocurrencies actions
+        async getGlobalInfo(state){
+          const client = new CoinpaprikaAPI()
+          client.getGlobal().then(response => { state.commit('setGlobalInfo', response)}).catch(console.error)
+        },
+        async getBitcoinInfo(state){
+          const client = new CoinpaprikaAPI()
+              client.getCoinsOHLCVHistorical({
+              coinId: "btc-bitcoin",
+              quote: "usd",
+              start: this.state.currentDate,
+              end: this.state.currentDate 
+          }).then(response => { state.commit('setBitcoinInfo',response[0])}).catch(console.error)
+                  },
         //News Actions------------------------------------------------------------------------
         getArticle(state, element)
         {
@@ -363,7 +404,6 @@ export default createStore({
                 {
                   let arts2 = []
                   Promise.all(arts).then( value => { arts2.push(value)})
-                  console.log(arts2)
                     const payload = {key1: category+'News',key2:arts2};
                           state.commit('setNewsCategoryArray',payload);
                 }
@@ -403,16 +443,7 @@ export default createStore({
       },
     },
     getters: {
-        TextJoin(state, textarray)
-        {
-            let text = "";
-            textarray.forEach( element => {
-                element.forEach( element2 => {
-                    text+=element2+"\n";
-                }) 
-            })
-            return text;
-        },
+       
         Pagination(state)
         {
             if(state.pageState.pageNumber == state.pageState.startPage)
@@ -465,24 +496,47 @@ export default createStore({
           
           
         },
-        SubpaginationText(state)
+        SubPaginationText(state)
         {
-          let textarr = state.subpageState.subpageContent.contentArray;
-          textarr = this.getters.TextJoin(textarr);
-          console.log(textarr);
+          let textarr = state.subpageState.subpageContent.contentArray[0];
+          let text = "";
+          textarr.forEach( element => {
+              text+="⚪"
+              text+=element[0];
+              text+="\n\n";
+              text+=element[1];
+              text+="\n\n\n";
+          });
+          let begin;
+          let end;
             if(state.subpageState.subpageContent.sPageNumber == 1)
           {
-            return textarr.slice(0,state.subpageState.subpageContent.limitDigitsAtPage)
+           let text2 = text.slice(0,state.subpageState.subpageContent.limitDigitsAtPage);
+           end = text2.lastIndexOf(" ");
+            return text2.slice(0,end);
           }
           else if(state.subpageState.subpageContent.sPageNumber == 2)
           {
-            return textarr.slice(state.subpageState.subpageContent.limitDigitsAtPage,state.subpageState.subpageContent.limitDigitsAtPage*2)     
+            begin = text.slice(0,state.subpageState.subpageContent.limitDigitsAtPage).lastIndexOf(" ");
+            let x = text.slice(0,state.subpageState.subpageContent.limitDigitsAtPage+begin);
+            end = x.lastIndexOf(" ");
+            return text.slice(begin,end);
           } 
           else
           {
-            const begin = state.subpageState.subpageContent.sPageNumber*state.subpageState.subpageContent.limitDigitsAtPage-state.subpageState.subpageContent.limitDigitsAtPage
-            const end = begin + state.subpageState.subpageContent.limitDigitsAtPage     
-            return textarr.slice(begin,end)
+            let spage = state.subpageState.subpageContent.sPageNumber
+            let limit = state.subpageState.subpageContent.limitDigitsAtPage
+            let z
+            let x
+               z = text.slice(0,limit*(spage-1));
+              begin = z.lastIndexOf(" ");
+              console.log(begin+" 1 "+end);
+              x = text.slice(0,(limit*(spage-1)+limit));
+            end = x.lastIndexOf(" ");
+            console.log(begin+" 2 "+end);
+            
+            
+            return text.slice(begin,end);
           }
         },
         getContents(state) //Returns Contents from ChannelContents

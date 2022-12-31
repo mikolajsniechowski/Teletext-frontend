@@ -1,6 +1,15 @@
 <template>
-    <h1 class="danger">EEEEEEEEEEEEEEOgłoszenia dobre takie lol EEEEEEEEEEEEEEEEE</h1>
-  <p>Podstrona nr: {{spageNumber}} </p>
+    <h1 class="danger">{{ $store.state.subpageState.subpageContent.title }}</h1>
+    <div v-if="this.$route.params.page == $store.state.channelContents.Announcements.range[0]">
+    <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item">
+      <div class="col-10">
+        {{item[0]}} 
+      </div>
+      <div class="col-2 ">
+        {{item[1]}}
+      </div> 
+  </div>
+  </div>
 </template>
 <script>
 export default {
