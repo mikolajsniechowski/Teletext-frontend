@@ -177,7 +177,17 @@ export default createStore({
     mutations: {
         getNow () {
             const today = new Date();
-            const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let month = '' + (today.getMonth() + 1);
+            let day = '' + today.getDate();
+            if(month.length < 2)
+            {
+              month = '0'+month
+            }
+            if(day.length < 2)
+            {
+              day = '0'+day
+            }
+            const date = today.getFullYear()+'-'+month+'-'+day;
             const dateTime = date 
             this.state.currentDate = dateTime;      
           },
@@ -364,7 +374,7 @@ export default createStore({
               quote: "usd",
               start: this.state.currentDate,
               end: this.state.currentDate 
-          }).then(response => { state.commit('setBitcoinInfo',response[0])}).catch(console.error)
+          }).then(response => { state.commit('setBitcoinInfo',response[0]), console.log(response)}).catch(console.error)
                   },
         //News Actions------------------------------------------------------------------------
         getArticle(state, element)
