@@ -199,7 +199,6 @@ export default createStore({
             state.pageState.maxPage = Math.ceil(state.pageState.contentArray.length/state.pageState.limitAtPage)
         },  
         setSubpageParameters(state,payload) {
-          console.log(payload)
             state.subpageState.subpageContent.contentArray = payload.key1
             state.subpageState.subpageContent.limitAtPage = payload.key2
             state.subpageState.subpageContent.title = payload.key3
@@ -303,7 +302,6 @@ export default createStore({
                 {
                 this.state.subpageState.hasSubpages = allchannels[element].content[index][1];
                 let contentAr = allchannels[element].content[index][3]
-                console.log(contentAr)
                     if(contentAr)
                     {
                         let payload = {'key1': allchannels[element][contentAr],'key2':allchannels[element].content[index][2], 'key3':allchannels[element].content[index][0],'key4':allchannels[element].content[index][1]}
@@ -345,8 +343,8 @@ export default createStore({
         },
         async getMetalPrices(){
             try {
-                const response = await axios.get('https://metals-api.com/api/latest?access_key=btoe8y52ao0dnlsy2o40a5el13gq55pg20wmvwom6x726da2y816z4vtb3xn&base=USD&symbols=XAG%2CXPD%2CXPT%2CXRH%2CALU%2CNI%2CZNC%2CTIN%2CLCO%2CIRD%2C+LEAD%2C+IRON%2CURANIUM%2CBRONZE%2CMG%2COSMIUM%2CLITHIUM%09%09');
-                console.log(response)
+                const response = await axios.get('https://metals-api.com/api/latest?access_key='+process.env.VUE_APP_API_KEY_METAL+'&base=USD&symbols=XAG%2CXPD%2CXPT%2CXRH%2CALU%2CNI%2CZNC%2CTIN%2CLCO%2CIRD%2C+LEAD%2C+IRON%2CURANIUM%2CBRONZE%2CMG%2COSMIUM%2CLITHIUM%09%09');
+                //console.log(response)
                 this.state.channelContents.CurrencyRates.metals = Object.entries(response.data.rates)
 
               } catch (error) {
@@ -387,7 +385,7 @@ export default createStore({
         getNews(state,category) {
             const axios = require('axios');
             let arts=[]
-            let url = 'https://newsdata.io/api/1/news?apikey=pub_14248fa3072e0487f10e233cb311fd8a89144&language=pl&category='+category;
+            let url = 'https://newsdata.io/api/1/news?apikey='+process.env.VUE_APP_API_KEY_NEWS+'&language=pl&category='+category;
             axios.get(url).then(  function(r1) {
               let results = []
               for(let i=0;i<5;i++)
@@ -415,7 +413,7 @@ export default createStore({
         async getWeatherParams() {
           this.state.channelContents.Weather.cities.forEach( async (element) =>  {
               try {
-                  const response = await axios.get('https://api.weatherapi.com/v1/forecast.json?key=5f6d2e0b27d24499bda181140221612&q='+element.slug+'&hour=12&lang=pl&days=3');
+                  const response = await axios.get('https://api.weatherapi.com/v1/forecast.json?key='+process.env.VUE_APP_API_KEY_WEATHER+'&q='+element.slug+'&hour=12&lang=pl&days=3');
                   let days = response.data.forecast.forecastday
                   //console.log(days)
                   let cityparams = []
@@ -530,10 +528,8 @@ export default createStore({
             let x
                z = text.slice(0,limit*(spage-1));
               begin = z.lastIndexOf(" ");
-              console.log(begin+" 1 "+end);
               x = text.slice(0,(limit*(spage-1)+limit));
             end = x.lastIndexOf(" ");
-            console.log(begin+" 2 "+end);
             
             
             return text.slice(begin,end);
