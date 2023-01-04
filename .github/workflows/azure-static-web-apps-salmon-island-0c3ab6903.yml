@@ -32,10 +32,10 @@ jobs:
           output_location: "dist" # Built app content directory - optional
         
         
-        env:
-          VUE_APP_API_KEY_WEATHER: '${{secrets.VUE_APP_API_KEY_WEATHER}}'
-          VUE_APP_API_KEY_NEWS: '${{VUE_APP_API_KEY_NEWS}}'
-          VUE_APP_API_KEY_METAL: '${{VUE_APP_API_KEY_METAL}}'
+    env:
+      VUE_APP_API_KEY_WEATHER: '${{secrets.VUE_APP_API_KEY_WEATHER}}'
+      VUE_APP_API_KEY_NEWS: '${{VUE_APP_API_KEY_NEWS}}'
+      VUE_APP_API_KEY_METAL: '${{VUE_APP_API_KEY_METAL}}'
 
           ###### End of Repository/Build Configurations ######
 
