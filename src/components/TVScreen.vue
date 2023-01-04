@@ -53,6 +53,7 @@ return{
   },
   name: 'TvScreen',
   created() {
+    console.log(process.env.VUE_APP_TEST);
     this.$store.commit('getCurrenciesData'); 
   this.$store.dispatch('getCurrenciesRateBuySell');
   this.$store.dispatch('getCurrenciesRate');
