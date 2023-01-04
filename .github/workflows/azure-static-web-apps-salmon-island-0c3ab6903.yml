@@ -32,6 +32,7 @@ jobs:
           output_location: "dist" # Built app content directory - optional
         env:
           VUE_APP_TEST: 1
+          VUE_APP_API_KEY_WEATHER: ${{ secrets.VUE_APP_API_KEY_WEATHER }}
         
     
 
