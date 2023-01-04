@@ -33,8 +33,9 @@ jobs:
         env:
           VUE_APP_TEST: 1
           VUE_APP_API_KEY_WEATHER: ${{ secrets.VUE_APP_API_KEY_WEATHER }}
-        
-    
+          VUE_APP_API_KEY_NEWS: ${{ secrets.VUE_APP_API_KEY_NEWS }}
+          VUE_APP_API_KEY_METAL: ${{ secrets.VUE_APP_API_KEY_METAL }}
+          
 
           ###### End of Repository/Build Configurations ######
 
