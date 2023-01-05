@@ -368,13 +368,7 @@ export default createStore({
           client.getGlobal().then(response => { state.commit('setGlobalInfo', response)}).catch(console.error)
         },
         async getBitcoinInfo(state){
-          const client = new CoinpaprikaAPI()
-              client.getCoinsOHLCVHistorical({
-              coinId: "btc-bitcoin",
-              quote: "usd",
-              start: this.state.currentDate,
-              end: this.state.currentDate 
-          }).then(response => { state.commit('setBitcoinInfo',response[0]), console.log(response)}).catch(console.error)
+          axios.get('https://api.coinpaprika.com/v1/coins/btc-bitcoin/ohlcv/latest').then(response => { state.commit('setBitcoinInfo',response.data[0])}).catch(console.error)
                   },
         //News Actions------------------------------------------------------------------------
         getArticle(state, element)

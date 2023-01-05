@@ -10,7 +10,7 @@
       </div> 
   </div>
   </div>
-  <div v-if="this.$route.params.page == $store.state.channelContents.News.range[0]+1">
+  <div v-if="this.$route.params.page > $store.state.channelContents.News.range[0] && this.$route.params.page <= $store.state.channelContents.News.range[1]">
     <div class="row" >
       <div style="white-space: pre-wrap;" class="col">
        {{$store.getters.SubPaginationText}} 
