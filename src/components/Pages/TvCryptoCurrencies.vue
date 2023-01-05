@@ -133,8 +133,7 @@ export default {
         }
       }
     )
-    this.$store.dispatch('getBitcoinInfo');
-    this.$store.dispatch('getGlobalInfo');
+    
   },
   mounted() {
     let temp = this.$route.params.subpage
