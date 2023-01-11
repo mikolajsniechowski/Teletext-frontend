@@ -11,13 +11,11 @@
   </div>
   </div>
   <div class="table-responsive-md" v-if="this.$route.params.page >= $store.state.channelContents.Weather.range[0]+1 && this.$route.params.page <= $store.state.channelContents.Weather.range[1]">
-  <table class="table" >
+  <table class="tableweather" >
     <thead>
         <tr class="bg-success">
           <th scope="col" class="align-middle text-center p-1">Miasto</th>
           <th scope="col" class="align-middle text-center p-2">Kiedy</th>
-          <th scope="col" class="align-middle text-center p-1">Max °C</th>
-          <th scope="col" class="align-middle text-center p-1">Min °C</th>
           <th scope="col" class="align-middle text-center p-1">Śr °C</th>
           <th scope="col" class="align-middle text-center p-1">Max Wiatr (km/h)</th>
           <th scope="col" class="align-middle text-center p-1">Deszcz/Śnieg</th>
@@ -28,8 +26,6 @@
     <tr v-for="(subitem) in item.params" :key="subitem.id">
       <th scope="row" class="align-middle text-center p-1 ">{{item.city}} </th>
       <th scope="row" class="align-middle text-center p-2 ">{{subitem.dayname}} </th>
-      <td class="align-middle text-center p-1">{{subitem.maxtemp}}</td>
-      <td class="align-middle text-center p-1">{{subitem.mintemp}}</td>
       <td class="align-middle text-center p-1">{{subitem.avgtemp}}</td>
       <td class="align-middle text-center p-1">{{subitem.maxwind}}</td>
       <td class="align-middle text-center p-1">{{subitem.chances}}</td>
@@ -78,3 +74,4 @@ export default {
   }
 }
 </script>
+<style scoped  src="@/assets/css/styleHome.css"></style>
