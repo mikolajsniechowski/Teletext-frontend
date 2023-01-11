@@ -62,14 +62,14 @@ return{
   this.$store.dispatch('getGoldPrices');
   this.$store.commit('getWeatherData');
   this.$store.dispatch('getWeatherParams');
-  /*this.$store.dispatch('getNews','top');
+  this.$store.dispatch('getNews','top');
    this.$store.dispatch('getNews','health');
   this.$store.dispatch('getNews','science');
     this.$store.dispatch('getNews','business');
     this.$store.dispatch('getNews','entertainment');
     this.$store.dispatch('getNews','sports');
     this.$store.dispatch('getNews','technology');
-    */
+    
   //this.$store.dispatch('getMetalPrices');
     this.$store.commit('setChannelsContents'); 
     this.$store.commit('setWeatherArrays');
