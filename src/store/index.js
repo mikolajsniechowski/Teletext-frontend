@@ -455,8 +455,7 @@ export default createStore({
       //TV Program Actions
       async getProgram() {
         try {
-          console.log(process.env.VUE_APP_API_BACKEND)
-          const response = await axios.get(process.env.VUE_APP_API_BACKEND);
+          const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/ProgramItems/');
           let trimmedData = response.data;
           trimmedData = trimmedData.slice(0,12)
           trimmedData.forEach(element => {
