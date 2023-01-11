@@ -35,7 +35,7 @@ jobs:
           VUE_APP_API_KEY_WEATHER: ${{ secrets.VUE_APP_API_KEY_WEATHER }}
           VUE_APP_API_KEY_NEWS: ${{ secrets.VUE_APP_API_KEY_NEWS }}
           VUE_APP_API_KEY_METAL: ${{ secrets.VUE_APP_API_KEY_METAL }}
-          
+          VUE_APP_API_BACKEND: ${{ secrets.VUE_APP_API_BACKEND }}
 
           ###### End of Repository/Build Configurations ######
 
