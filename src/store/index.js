@@ -22,7 +22,7 @@ export default createStore({
                 sPageNumber:1,
                 contentArray: null,
                 limitAtPage:3,
-                limitDigitsAtPage:600,
+                limitDigitsAtPage:500,
                 title:null,      
             }
         },
@@ -121,31 +121,27 @@ export default createStore({
             },
             Program: {
             title: 'Program Tv',
-            range:[38,45],
+            range:[38,43],
             content:[['Spis treści', false,0,'ProgramContents'],
             ['TVP 1', true,1,'tvp1'],
             ['TVP 2', true,1,'tvp2'],
-            ['Polsat', true,1,'polsat'],
-            ['TVN', true,1,'tvn'],
-            ['TVN 7', true,1,'tvn7'],
-            ['TV 4', true,1,'tv4'],
-            ['TV Puls',true,1,'tvpuls'],
-            ['Puls 2',true,1,'puls2']
+            ['TVP INFO', true,1,'tvpinf'],
+            ['TVP SPORT', true,1,'tvpksp'],
+            ['TVP NAUKA', true,1,'tvpnk'],
+            ['TVP KULTURA', true,1,'tvpktr'],
             ],
             ProgramContents:[''],
-            tvp1:[''],
-            tvp2:[''],
-            polsat:[''],
-            tvn:[''],
-            tvn7:[''],
-            tv4:[''],
-            tvpuls:[''],
-            puls:[''],
+            tvp1:[],
+            tvp2:[],
+            tvpinf:[],
+            tvpksp:[],
+            tvpnk:[],
+            tvpktr:[],
             },
             //DO ZROBIENIA
             Surveys:{
             title: 'Ankiety',
-            range:[46,48],
+            range:[44,46],
             content:[['Spis treści',false,2,'SurveysContents'],['Ankieta miesiąca',true,3,'SurveysMonthly'],
             ['Ankieta tygodniowa',true,3,'SurveysWeekly'],
             ],
@@ -155,7 +151,7 @@ export default createStore({
             },
             Announcements: {
             title: 'Ogłoszenia',    
-            range: [49,55],
+            range: [47,53],
             content:[['Spis treści',false,10,'AnnouncementsContents'],
                 ['Ogłoszenia drobne',true,3,'SmallAnnouncements'],
                 ['Reklamy',true,3,'Advertisements'],
@@ -217,7 +213,19 @@ export default createStore({
             {   
                 if(Array.isArray(payload.key1))
                 {
-                  state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+                  if(state.subpageState.subpageContent.title.includes("Wiadomości"))
+                  {
+                     let contentNews="";
+                     state.subpageState.subpageContent.contentArray[0].forEach(article => {
+                     contentNews+=article[0]
+                     contentNews+=article[1]
+                    });
+                    state.subpageState.subpageContent.maxPage = Math.ceil(contentNews.length/state.subpageState.subpageContent.limitDigitsAtPage)
+                  }
+                  else
+                  {
+                   state.subpageState.subpageContent.maxPage = Math.ceil(state.subpageState.subpageContent.contentArray.length/state.subpageState.subpageContent.limitAtPage)
+                  }
                 }
                 else
                 {
@@ -290,6 +298,7 @@ export default createStore({
                     x++
             })
         },
+      
         //----------------------CHANNEL CONTENTS 
         
         getCurrenciesData(state) {
@@ -345,7 +354,7 @@ export default createStore({
         },
         async getGoldPrices(){
             try {
-                const response = await axios.get('http://api.nbp.pl/api/cenyzlota/last/30/?format=json');
+                const response = await axios.get('https://api.nbp.pl/api/cenyzlota/last/30/?format=json');
                 this.state.channelContents.CurrencyRates.goldPrice = response.data
               } catch (error) {
                 console.log(error)
@@ -443,6 +452,31 @@ export default createStore({
                 }
           });
       },
+      //TV Program Actions
+      async getProgram() {
+        try {
+          const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/ProgramItems/');
+          let trimmedData = response.data;
+          trimmedData = trimmedData.slice(0,12)
+          trimmedData.forEach(element => {
+              let channelID = element.program_ID;
+            //let channelDate = element.program_date;
+            let channelData = element.program_data.split("\r\n");
+            let channelDataShort = []
+            channelData.forEach( elProg => {
+              let indof = elProg.indexOf(';');
+              elProg = elProg.substring(0, indof);
+              channelDataShort.push(elProg)
+            })
+              channelID = channelID.toLowerCase();
+              this.state.channelContents.Program[channelID].push(channelDataShort);
+          })
+          //console.log( state.channelContents.Program['tvp1']);
+        } catch (error) {
+          console.log(error);
+        }
+        
+      }, 
     },
     getters: {
        
@@ -530,12 +564,17 @@ export default createStore({
             let limit = state.subpageState.subpageContent.limitDigitsAtPage
             let z
             let x
-               z = text.slice(0,limit*(spage-1));
-              begin = z.lastIndexOf(" ");
-              x = text.slice(0,(limit*(spage-1)+limit));
+            z = text.slice(0,limit*(spage-1));
+            begin = z.lastIndexOf(" ");
+            x = text.slice(0,(limit*(spage-1)+limit));
+            if(spage == state.subpageState.subpageContent.maxPage)
+            {
+              end = x.lastIndexOf(".")+1;
+            }
+            else
+            {
             end = x.lastIndexOf(" ");
-            
-            
+            }
             return text.slice(begin,end);
           }
         },

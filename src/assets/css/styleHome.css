@@ -49,8 +49,37 @@ a {
   display:inline-block;
   width:100%;
 }
+.tableweather
+{
+  font-size: 0.6em;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) {
 .tableweather{
   display: block;
     width: 100%;
     overflow-x: auto;
+    font-size: 1em;
+}
+}
+.programrow
+{
+  display: flex;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+  .programstyle{
+    font-size: 0.55em;
+    line-height: 1em;
+  }
+  @media only screen and (min-width: 768px) {
+.programstyle{
+  font-size: 0.8em;
+  line-height: 1em;
+}
+}
+.timecolor{
+  color:pink;
 }
