@@ -310,16 +310,16 @@ export default createStore({
           console.log(categorysize);
           state.channelContents.Announcements.range[1]=state.channelContents.Announcements.range[0]+categorysize;
         },
-        fillCategories({state},payload)
+        fillCategories(state,payload)
         {
             let id = payload.id
             let title = payload.title
             let desc =payload.desc
-            this.state.channelContents.Announcements.content.forEach(element => {
+            state.channelContents.Announcements.content.forEach(element => {
               if(element[4] == id)
               {
                 let array = element[3];
-                this.state.channelContents.Announcements[array].push([title,desc])
+                state.channelContents.Announcements[array].push([title,desc])
               }
             })
             
