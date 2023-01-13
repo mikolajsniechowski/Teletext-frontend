@@ -310,16 +310,16 @@ export default createStore({
           console.log(categorysize);
           state.channelContents.Announcements.range[1]=state.channelContents.Announcements.range[0]+categorysize;
         },
-        fillCategories({state},payload)
+        fillCategories(state,payload)
         {
             let id = payload.id
             let title = payload.title
             let desc =payload.desc
-            this.state.channelContents.Announcements.content.forEach(element => {
+            state.channelContents.Announcements.content.forEach(element => {
               if(element[4] == id)
               {
                 let array = element[3];
-                this.state.channelContents.Announcements[array].push([title,desc])
+                state.channelContents.Announcements[array].push([title,desc])
               }
             })
             
@@ -654,12 +654,13 @@ export default createStore({
         },
         polishCharacterSlugger: (state) => (sentence) =>
          {
-          
+          let a = state.currentDate;
            const replacements = {
                'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
                'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
            };
-             let text = sentence
+             let text = a
+             text = sentence
              let result = '';
          for (let i = 0; i < text.length; ++i) {
          const entry = text[i];
