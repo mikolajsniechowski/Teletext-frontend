@@ -11,10 +11,11 @@
   </div>
   </div>
   <div v-if="this.$route.params.page > $store.state.channelContents.Program.range[0] && this.$route.params.page <= $store.state.channelContents.Program.range[1]">
+    <b> {{   $store.getters.SubPagination[0][0]}}</b>
     <div class="programrow">
-      <div v-for="(item) in $store.getters.SubPagination[0]" class="programstyle" :key="item">
-        <i class="timecolor">{{ item.slice(0,5) }} </i> {{ item.slice(5) }} <br>
-      </div>
+      <span v-for="(item,key) in $store.getters.SubPagination[0]" class="programstyle" :key="item">
+        <i v-if="key>0" class="timecolor">{{ item.slice(0,5) }} </i> <i v-if="key>0">{{ item.slice(5) }}</i> <br>
+      </span>
     </div>
     
   </div>

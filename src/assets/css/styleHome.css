@@ -73,11 +73,23 @@ a {
   .programstyle{
     font-size: 0.55em;
     line-height: 1em;
+    display:block;
+  }
+  .programtitle{
+    color: red;
+    font-style: bold;
+    font-size:0.6em;
   }
   @media only screen and (min-width: 768px) {
 .programstyle{
   font-size: 0.8em;
   line-height: 1em;
+  display:block;
+}
+.programtitle{
+  color: red;
+  font-style: bold;
+  font-size:0.9em;
 }
 }
 .timecolor{
