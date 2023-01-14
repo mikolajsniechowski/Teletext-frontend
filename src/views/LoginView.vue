@@ -2,38 +2,44 @@
     <div id="login">
         <h1>Logowanie</h1>
       <br />
-        <input type="text" name="username" v-model="input.username" placeholder="Username" />
+      <form>
+        <input type="text" name="email" v-model="input.email" placeholder="E-mail" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
-       <br /> <button type="button" v-on:click="login()">Zaloguj się</button> <br />
+       <br /> <button type="submit" >Zaloguj się</button> <br />
+        </form>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'LoginView',
-        data() {
-            return {
-                input: {
-                    username: "",
-                    password: ""
-                }
+import {mapActions, mapGetters} from 'vuex';
+export default {
+    data(){
+        return {
+            input: {
+              email: "",
+              password: ""
             }
-        },
-        methods: {
-            login() {
-                if(this.input.username !== "" && this.input.password !== "") {
-                    if(this.input.username === "username" && this.input.password === "password") {
-                        this.$emit("authenticated", true);
-                        this.$router.replace({ name: "tv" });
-                    } else {
-                        console.log("The username and / or password is incorrect");
-                    }
-                } else {
-                    console.log("A username and password must be present");
-                }
-            }
+          };
+    },
+    computed:{
+      ...mapGetters('auth',{
+        getterLoginStatus:'getLoginStatus'
+      })
+    },
+    methods:{
+        ...mapActions('auth',{
+          actionLogin:'login'
+        }),
+        async login(){
+           await this.actionLogin({email:this.email, password:this.password});
+           if(this.getterLoginStatus === 'success'){
+             alert('login sucess');
+           }else{
+             alert('failed to login')
+           }
         }
     }
+};
 </script>
 
 <style>
