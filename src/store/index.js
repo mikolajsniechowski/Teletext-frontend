@@ -3,7 +3,6 @@ import axios from 'axios';
 import sourceDataCurrency from '@/datacurrency.json'
 import sourceDataWeather from '@/dataweather.json'
 import CoinpaprikaAPI from '@coinpaprika/api-nodejs-client'
-import authModule from './modules/auth';
 
 export default createStore({
     state: {
@@ -671,6 +670,6 @@ export default createStore({
          }
     },
     modules: {
-        auth:authModule
+
     }
 })

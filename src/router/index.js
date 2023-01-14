@@ -5,7 +5,6 @@ import LoginView from "@/views/LoginView";
 import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
 import AnnouncementFormView from "@/views/AnnouncementFormView";
-import store from "../store/index";
 const routes = [
   {
     path: '/',
@@ -48,8 +47,7 @@ const routes = [
     {
       path: "/profile",
       name: "profile",
-      component: ProfileView,
-      meta: { requiredAuth: true}
+      component: ProfileView
     },
     {
       path: "/announcementform",
@@ -63,33 +61,5 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-
-router.beforeEach((to,from, next) => {
-    console.log(store.getters["auth/getAuthData"].token);
-    if(!store.getters["auth/getAuthData"].token){
-        const access_token = localStorage.getItem("access_token");
-        const refresh_token = localStorage.getItem("refresh_token");
-        if(access_token){
-            const data = {
-                access_token:access_token,
-                refresh_token:refresh_token
-            };
-            store.commit('auth/saveTokenData',data);
-        }
-    }
-    const auth = store.getters["auth/isTokenActive"];
-
-    if(to.fullPath == "/"){
-        return next();
-    }
-    else if(auth && !to.meta.requiredAuth){
-        return next({path:"/tv"});
-    }
-    else if(!auth && to.meta.requiredAuth){
-        return next({path: '/login'});
-    }
-
-    return next();
-});
 
 export default router

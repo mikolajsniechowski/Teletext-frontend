@@ -27,9 +27,6 @@
             <li class="nav-item">
               <router-link to="/profile"> Profil </router-link>
             </li>
-             <li class="nav-item" @click="logUserOut">
-              Wyloguj
-            </li>
           </ul>
         </div>
       </nav>
@@ -50,35 +47,22 @@
 </template>
 
 <script>
-import VueJwtDecode from "vue-jwt-decode";
-export default {
-  data() {
-    return {
-      user: {}
-    };
-  },
-  methods: {
-    getUserDetails() {
-      // get token from localstorage
-      let token = localStorage.getItem("user");
-      try {
-      //decode token here and attach to the user object
-      let decoded = VueJwtDecode.decode(token);
-      this.user = decoded;
-      } catch (error) {
-        // return error in production env
-        console.log(error, 'error from decoding token')
-      }
-    },
-    logUserOut() {
-      localStorage.removeItem("user");
-      this.$router.push("/login");
+    export default {
+        name: 'App',
+        data() {
+            return {
+                authenticated: false,
+            }
+        },
+        methods: {
+            setAuthenticated(status) {
+                this.authenticated = status;
+            },
+            logout() {
+                this.authenticated = false;
+            }
+        }
     }
-  },
-  created() {
-    this.getUserDetails();
-  }
-};
 </script>
 
 <style src="@/assets/css/bootstrap.css" type="text/css">

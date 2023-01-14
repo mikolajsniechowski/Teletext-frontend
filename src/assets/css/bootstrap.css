@@ -4562,7 +4562,7 @@ input[type="button"].btn-block {
 }
 
 .nav-item {
-  margin-left: 1px;
+  padding: 0;
 }
 
 .nav-tabs {
