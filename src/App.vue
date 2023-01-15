@@ -10,13 +10,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link to="/">Telegazeta Online</router-link>
+              <router-link to="/"> Telegazeta Online </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Ogłoszenia</a>
+              <a class="nav-link" href="#"> Ogłoszenia </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">O nas</a>
+              <a class="nav-link" href="#"> O nas </a>
             </li>
             <li class="nav-item">
               <router-link to="/signup"> Rejestracja </router-link>
@@ -26,6 +26,9 @@
             </li>
             <li class="nav-item">
               <router-link to="/profile"> Profil </router-link>
+            </li>
+            <li class="nav-item" @click="logUserOut">
+               Wyloguj
             </li>
           </ul>
         </div>
@@ -47,22 +50,35 @@
 </template>
 
 <script>
-    export default {
-        name: 'App',
-        data() {
-            return {
-                authenticated: false,
-            }
-        },
-        methods: {
-            setAuthenticated(status) {
-                this.authenticated = status;
-            },
-            logout() {
-                this.authenticated = false;
-            }
-        }
+import VueJwtDecode from "vue-jwt-decode";
+export default {
+  data() {
+    return {
+      user: {}
+    };
+  },
+  methods: {
+    getUserDetails() {
+      // get token from localstorage
+      let token = localStorage.getItem("user");
+      try {
+      //decode token here and attach to the user object
+      let decoded = VueJwtDecode.decode(token);
+      this.user = decoded;
+      } catch (error) {
+        // return error in production env
+        console.log(error, 'error from decoding token')
+      }
+    },
+    logUserOut() {
+      localStorage.removeItem("user");
+      this.$router.push("/login");
     }
+  },
+  created() {
+    this.getUserDetails();
+  }
+};
 </script>
 
 <style src="@/assets/css/bootstrap.css" type="text/css">
