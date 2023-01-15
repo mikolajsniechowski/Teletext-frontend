@@ -63,6 +63,7 @@ return{
   this.$store.commit('getWeatherData');
   this.$store.dispatch('getWeatherParams');
     this.$store.dispatch('getAnnouncementsCategories');
+    this.$store.dispatch('getAllSurveys');
   //this.$store.dispatch('getMetalPrices');
     this.$store.commit('setChannelsContents'); 
     this.$store.commit('setWeatherArrays');

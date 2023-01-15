@@ -1,6 +1,6 @@
 <template>
     <h1 class="danger">{{ $store.state.subpageState.subpageContent.title }}</h1>
-    <div v-if="this.$route.params.page == $store.state.channelContents.Program.range[0]">
+    <div v-if="this.$route.params.page == $store.state.channelContents.Surveys.range[0]">
     <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item">
       <div class="col-10">
         {{item[0]}} 
@@ -8,6 +8,13 @@
       <div class="col-2 ">
         {{item[1]}}
       </div> 
+  </div>
+  </div>
+  <div v-if="this.$route.params.page > $store.state.channelContents.Surveys.range[0] && this.$route.params.page <= $store.state.channelContents.Surveys.range[1]">
+    <div v-for="(item) in $store.getters.SubPagination[0][1]" class="row" :key="item">
+      <div class="col">
+       <b> {{item[0]}} </b> <br> {{ item[1]}} <hr>
+      </div>
   </div>
   </div>
 </template>

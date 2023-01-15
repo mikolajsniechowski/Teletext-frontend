@@ -138,16 +138,13 @@ export default createStore({
             tvpnk:[],
             tvpktr:[],
             },
-            //DO ZROBIENIA
             Surveys:{
             title: 'Ankiety',
             range:[44,46],
-            content:[['Spis treści',false,2,'SurveysContents'],['Ankieta miesiąca',true,3,'SurveysMonthly'],
-            ['Ankieta tygodniowa',true,3,'SurveysWeekly'],
+            content:[['Spis treści - dostępne ankiety',false,10,'SurveysContents']
             ],
-            SurveysContents:['zzzz'],
-            SurveysMonthly:['ccc'],
-            SurveysWeekly:['bbb'],     
+            SurveysContents:[''],
+             
             },
             Announcements: {
             title:'Ogłoszenia',    
@@ -178,7 +175,6 @@ export default createStore({
          let cities = state.channelContents.Weather.cities
          cities.forEach( element => {
           let region = element.region
-          //console.log(region)
           if(state.channelContents.Weather[region])
           {
             state.channelContents.Weather[region].push(element)
@@ -304,13 +300,14 @@ export default createStore({
           category = category.charAt(0).toUpperCase() + category.slice(1);
           state.channelContents.Announcements.content.push([category,true,3,categoryslug,id])
         },
-        setCategoryRange(state)
+        setAnnouncementsRange(state)
         {
           let categorysize = state.channelContents.Announcements.content.length-1;
           console.log(categorysize);
+          state.channelContents.Announcements.range[0]=state.channelContents.Surveys.range[1]+1;
           state.channelContents.Announcements.range[1]=state.channelContents.Announcements.range[0]+categorysize;
         },
-        fillCategories(state,payload)
+        fillAnnouncements(state,payload)
         {
             let id = payload.id
             let title = payload.title
@@ -323,7 +320,35 @@ export default createStore({
               }
             })
             
-        }
+        },
+        //Surveys methods
+        makeSurveys(state,payload)
+        {
+          let slug_survey = payload.slug_survey;
+          let survey_question = payload.survey_question;
+          let surveyId = payload.surveyId;
+          state.channelContents.Surveys[slug_survey] = []
+          state.channelContents.Surveys.content.push([survey_question,true,1,slug_survey,surveyId])
+        },
+        setSurveyRange(state)
+        {
+          let surveySize = state.channelContents.Surveys.content.length-1;
+          state.channelContents.Surveys.range[1]=state.channelContents.Surveys.range[0]+surveySize;
+        },
+        fillSurveys(state,payload)
+        { 
+            let survey_id = payload.survey_id;
+            let survey_title = payload.survey_title
+            let survey_results = payload.survey_results
+            state.channelContents.Surveys.content.forEach(element => {
+              if(element[4] == survey_id)
+              {
+                let array = element[3];
+                state.channelContents.Surveys[array].push([survey_title,survey_results])
+              }
+            })
+            
+        },
         
     },
     actions: {
@@ -381,7 +406,6 @@ export default createStore({
         async getMetalPrices(){
             try {
                 const response = await axios.get('https://metals-api.com/api/latest?access_key='+process.env.VUE_APP_API_KEY_METAL+'&base=USD&symbols=XAG%2CXPD%2CXPT%2CXRH%2CALU%2CNI%2CZNC%2CTIN%2CLCO%2CIRD%2C+LEAD%2C+IRON%2CURANIUM%2CBRONZE%2CMG%2COSMIUM%2CLITHIUM%09%09');
-                //console.log(response)
                 this.state.channelContents.CurrencyRates.metals = Object.entries(response.data.rates)
 
               } catch (error) {
@@ -490,14 +514,13 @@ export default createStore({
               channelID = channelID.toLowerCase();
               this.state.channelContents.Program[channelID].push(channelDataShort);
           })
-          //console.log( state.channelContents.Program['tvp1']);
         } catch (error) {
           console.log(error);
         }
         
       }, 
       //---------------Announcements Actions
-      async getAnnouncementsCategories({commit,getters,state,dispatch }){
+      async getAnnouncementsCategories({commit,getters,dispatch }){
         try{
           const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/ad/api/annoucements/category/');
           response.data.forEach(element => {
@@ -508,8 +531,7 @@ export default createStore({
             let payload = {category_name_slug: slug_category,category_name: category,categoryId: categoryId};
             commit('makeCategoryAnnouncement',payload);
           })
-          console.log(state.channelContents.Announcements)
-          commit('setCategoryRange');
+          commit('setAnnouncementsRange');
           dispatch('setAnnouncementsCategories');
         }catch(error){
           console.log(error)
@@ -526,7 +548,7 @@ export default createStore({
                 let an_title = ann.title;
                 let an_desc = ann.description;
                 let payload = {id: id,title: an_title,desc: an_desc};
-                commit('fillCategories',payload);  
+                commit('fillAnnouncements',payload);  
                 })
               }catch(error){
               console.log(error)
@@ -535,7 +557,51 @@ export default createStore({
             }
           })
           commit('setChannelsContents');
-      }
+      },
+      //-------Survey Actions
+      async getAllSurveys({commit,getters,dispatch }){
+        try{
+          const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/polls/api/polls/');
+          response.data.forEach(element => {
+            let survey_question = element.question;
+            let surveyId = element.id;
+            let slug_survey = getters.polishCharacterSlugger(survey_question);
+            slug_survey = slug_survey.toLowerCase().replace(/\s/g, "").slice(0,-1);
+            let payload = {slug_survey: slug_survey,survey_question: survey_question,surveyId: surveyId};
+            commit('makeSurveys',payload);
+          })
+          commit('setSurveyRange');
+          dispatch('setAllSurveys');
+        }catch(error){
+          console.log(error)
+        }
+      },
+      async setAllSurveys({commit}){
+        this.state.channelContents.Surveys.content.forEach( async element => {
+          if(element.length==5)
+          {
+            let id = element[4];
+             try{
+              const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/polls/api/polls/combo/'+id+'/result');
+              let results = []
+              response.data.result.forEach( surv => {
+                
+              results.push([surv.choice,surv.result])
+              })
+             console.log(results);
+              let surv_title = element[0];
+              let payload = {survey_title: surv_title,survey_results: results,survey_id: id};
+              commit('fillSurveys',payload);  
+            }catch(error){
+            console.log(error)
+            }
+            
+          }
+        })
+        console.log(this.state.channelContents.Surveys)
+        commit('setAnnouncementsRange');
+        commit('setChannelsContents');
+    },
     },
     getters: {
        
