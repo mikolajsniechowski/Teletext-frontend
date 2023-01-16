@@ -2,15 +2,15 @@
  <div id="announcement">
         <h1>Dodaj ogłoszenie</h1>
       <br />
-        <input type="text" name="title" v-model="input.title" placeholder="Tytuł" />
-        <select name="category" v-model="input.category">
-          <option value="sale">Sprzedaż</option>
-          <option value="job">Praca</option>
-          <option value="love">Ogłoszenie matrymonialne</option>
-          <option value="other">Inne</option>
+        <form @submit.prevent="addAnn">
+        <input type="text" name="title" v-model="title" placeholder="Tytuł" />
+        <select name="category" v-model="category_name">
+          <option value="1">Motoryzacja</option>
+          <option value="2">Praca</option>
         </select>
-        <textarea type="text" v-model="input.content" placeholder="Opis ogłoszenia" />
-       <br /> <button type="button" v-on:click="addannouncement()">Dodaj Ogłoszenie</button> <br />
+        <textarea type="text" v-model="description" placeholder="Opis ogłoszenia" />
+       <br /> <button type="submit">Dodaj Ogłoszenie</button> <br />
+        </form>
     </div>
 </template>
 
@@ -19,23 +19,34 @@
         name: "AnnouncementFormView",
         data() {
            return {
-              input: {
-               title: "",
-                category: "",
-                content: "",
-              }
+                title: "",
+                category_name: "",
+                description: "",
            }
         },
         methods: {
-            addannouncement() {
-              if(this.input.title !== "" && this.input.category !== "" && this.input.content !== "") {
-                  console.log("Announcement added");
-              }
-              else {
-                console.log("All fields must be present");
-              }
-           }
-        }
+          async addAnn() {
+              const {title, category_name, description} = this;
+              const res = await fetch(
+                  "https://teletextbackend.azurewebsites.net/ad/api/annoucements",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: 'Bearer ' + localStorage.getItem("user"),
+                    },
+                    body: JSON.stringify({
+                      title,
+                      description,
+                      category_name
+                    })
+                  }
+              );
+              const data = await res.json();
+              console.log(data);
+              this.$router.push("/profile");
+            }
+          }
     }
 </script>
 

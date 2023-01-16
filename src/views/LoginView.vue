@@ -37,8 +37,8 @@ export default {
             }
         );
         const data = await res.json();
-        console.log(data);
-        let token = data;
+       // console.log(data[Object.keys(data)[1]]);
+        let token = data[Object.keys(data)[1]];
         localStorage.setItem("user", token);
         // navigate to a protected resource
         this.$router.push("/profile");

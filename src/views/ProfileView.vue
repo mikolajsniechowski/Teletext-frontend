@@ -1,9 +1,9 @@
 <template>
   <div>
     <h1>Profil</h1>
-    <button type="button" v-on:click="announcementform()">Dodaj ogłoszenie</button>
+    <button type="button" v-on:click="announcementForm()">Dodaj ogłoszenie</button>
     <br />
-    <button type="button">Wypełnij ankiety</button>
+    <button type="button" v-on:click="pollsView">Wypełnij ankiety</button>
   </div>
 </template>
 
@@ -11,8 +11,11 @@
 export default {
   name: "ProfileView",
   methods: {
-    announcementform() {
-      this.$router.replace({ name: "AnnouncementFormView" });
+    announcementForm() {
+      this.$router.replace({ name: "AnnouncementForm" });
+    },
+    pollsView() {
+      this.$router.replace({ name: "Polls" });
     }
   }
 }
