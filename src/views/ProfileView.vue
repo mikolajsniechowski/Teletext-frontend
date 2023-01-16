@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Profil (tutaj imię)</h1>
+    <h1>Profil</h1>
     <button type="button" v-on:click="announcementform()">Dodaj ogłoszenie</button>
     <br />
     <button type="button">Wypełnij ankiety</button>
