@@ -43,7 +43,7 @@ export default createStore({
             content:[['Spis treści', false,0,'CurrencyRatesContents'],
             ['Średni kurs', true,3,'currencies'],
             ['Kupno i Sprzedaż - Tabela C', true,3,'currenciesBuySell'],
-            ['Aktualny Kurs Złota', false,10,'goldPrice'],
+            ['Aktualny Kurs Złota', true,10,'goldPrice'],
             ['Cena innych metali szlachetnych', false,10,'metals']],
             currencies: [''],
             currenciesBuySell:[''],
@@ -57,7 +57,7 @@ export default createStore({
             content:[['Bitcoin Informacje', false,10,'bitcoinInfo'],['Parametry całego rynku kryptowalut', false,10,'globalInfo']],
             bitcoinInfo:[''],
             globalInfo:[''],
-            CryptoRatesContents:[], //FEJK
+            CryptoRatesContents:[], 
             },
             News: {
             title:'Wiadomości',    
@@ -328,7 +328,7 @@ export default createStore({
           let survey_question = payload.survey_question;
           let surveyId = payload.surveyId;
           state.channelContents.Surveys[slug_survey] = []
-          state.channelContents.Surveys.content.push([survey_question,true,1,slug_survey,surveyId])
+          state.channelContents.Surveys.content.push([survey_question,false,1,slug_survey,surveyId])
         },
         setSurveyRange(state)
         {
@@ -441,7 +441,7 @@ export default createStore({
             const axios = require('axios');
             let arts=[]
             let url = 'https://newsdata.io/api/1/news?apikey='+process.env.VUE_APP_API_KEY_NEWS+'&language=pl&category='+category;
-            axios.get(url).then(  function(r1) {
+            return axios.get(url).then(  function(r1) {
               let results = []
               for(let i=0;i<5;i++)
               {
@@ -461,8 +461,11 @@ export default createStore({
                           state.commit('setNewsCategoryArray',payload);
                 }
               })
+            }).catch(error => {
+              console.error(error)
+              
+              return Promise.reject(error)
             })
-            
         },
         //Weather Actions
         async getWeatherParams() {
@@ -496,33 +499,33 @@ export default createStore({
       },
       //TV Program Actions
       async getProgram() {
-        try {
-          const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/ProgramItems/');
-          let trimmedData = response.data;
-          trimmedData = trimmedData.slice(0,42)
-          trimmedData.forEach(element => {
-              let channelID = element.program_ID;
-            //let channelDate = element.program_date;
-            let channelData = element.program_data.split("\r\n");
-            let channelDataShort = []
-            channelDataShort.push(channelData[0]);
-            channelData.forEach( elProg => {
-              let indof = elProg.indexOf(';');
-              elProg = elProg.substring(0, indof);
-              channelDataShort.push(elProg)
+          return await axios.get(process.env.VUE_APP_API_BACKEND+'/ProgramItems/').then(response => { let trimmedData = response.data;
+            trimmedData = trimmedData.slice(0,42)
+            trimmedData.forEach(element => {
+                let channelID = element.program_ID;
+              //let channelDate = element.program_date;
+              let channelData = element.program_data.split("\r\n");
+              let channelDataShort = []
+              channelDataShort.push(channelData[0]);
+              channelData.forEach( elProg => {
+                let indof = elProg.indexOf(';');
+                elProg = elProg.substring(0, indof);
+                channelDataShort.push(elProg)
+              })
+                channelID = channelID.toLowerCase();
+                this.state.channelContents.Program[channelID].push(channelDataShort);
+            })}).catch(error => {
+              console.error(error)
+              // also make sure you don't accidentally convert this to a successful response
+              return Promise.reject(error)
             })
-              channelID = channelID.toLowerCase();
-              this.state.channelContents.Program[channelID].push(channelDataShort);
-          })
-        } catch (error) {
-          console.log(error);
-        }
+         
+        
         
       }, 
       //---------------Announcements Actions
       async getAnnouncementsCategories({commit,getters,dispatch }){
-        try{
-          const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/ad/api/annoucements/category/');
+        return await axios.get(process.env.VUE_APP_API_BACKEND+'/ad/api/annoucements/category/').then(response => {
           response.data.forEach(element => {
             let category = element.category_name;
             let categoryId = element.id;
@@ -533,9 +536,12 @@ export default createStore({
           })
           commit('setAnnouncementsRange');
           dispatch('setAnnouncementsCategories');
-        }catch(error){
-          console.log(error)
-        }
+        }).catch(error => {
+          console.error(error)
+          // also make sure you don't accidentally convert this to a successful response
+          return Promise.reject(error)
+        })
+          
       },
       async setAnnouncementsCategories({commit}){
           this.state.channelContents.Announcements.content.forEach( async element => {

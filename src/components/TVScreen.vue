@@ -47,30 +47,17 @@ return{
   showCryptoCurrencies: false,
   showProgram:false,
   showSurveys:false,
-  showWeather:false
+  showWeather:false,
+  ifIsInRange:true,
 }
     
   },
   name: 'TvScreen',
   created() {
-    this.$store.dispatch('getProgram');  
-  this.$store.dispatch('getBitcoinInfo');
-    this.$store.dispatch('getGlobalInfo');
-    this.$store.commit('getCurrenciesData'); 
-  this.$store.dispatch('getCurrenciesRateBuySell');
-  this.$store.dispatch('getCurrenciesRate');
-  this.$store.dispatch('getGoldPrices');
-  this.$store.commit('getWeatherData');
-  this.$store.dispatch('getWeatherParams');
-    this.$store.dispatch('getAnnouncementsCategories');
-    this.$store.dispatch('getAllSurveys');
-  //this.$store.dispatch('getMetalPrices');
-    this.$store.commit('setChannelsContents'); 
-    this.$store.commit('setWeatherArrays');
-    
     this.$watch(
       () => this.$route.params,
       () => {
+        //this.ifInRange();
         this.$store.commit('setPageNumber',this.$route.params.page);
         this.getChannels();
         this.getScreen();
@@ -91,126 +78,9 @@ return{
       this.selectedChannelSubpage = this.$route.params.subpage;
     },
     getScreen() {
-      if(this.selectedChannel >= this.channelContents.WelcomeScreen.range[0] && this.selectedChannel <= this.channelContents.WelcomeScreen.range[1])
+      if(!this.ifIsInRange)
       {
-      this.showWelcome= true,
-      this.showContents= false,
-      this.showCurrency= false,
-      this.showNews = false,
-      this.showNotFound= false,
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
-      this.showProgram=false,
-      this.showSurveys=false,
-      this.showWeather=false
-      }
-      else if (this.selectedChannel >= this.channelContents.Contents.range[0] && this.selectedChannel <= this.channelContents.Contents.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= true,
-      this.showCurrency= false,
-      this.showNews = false,
-      this.showNotFound= false,
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
-      this.showProgram=false,
-      this.showSurveys=false,
-      this.showWeather=false
-      }
-      else if (this.selectedChannel >= this.channelContents.CurrencyRates.range[0] && this.selectedChannel <= this.channelContents.CurrencyRates.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= false,
-      this.showCurrency= true,
-      this.showNews = false,
-      this.showNotFound= false
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
-      this.showProgram=false,
-      this.showSurveys=false,
-      this.showWeather=false
-      }
-      else if (this.selectedChannel >= this.channelContents.CryptoRates.range[0] && this.selectedChannel <= this.channelContents.CryptoRates.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= false,
-      this.showCurrency= false,
-      this.showNews = false,
-      this.showNotFound= false
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= true,
-      this.showProgram=false,
-      this.showSurveys=false,
-      this.showWeather=false
-      }
-      else if (this.selectedChannel >= this.channelContents.News.range[0] && this.selectedChannel <= this.channelContents.News.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= false,
-      this.showCurrency= false,
-      this.showNews = true,
-      this.showNotFound= false
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
-      this.showProgram=false,
-      this.showSurveys=false,
-      this.showWeather=false
-      }
-      else if (this.selectedChannel >= this.channelContents.Weather.range[0] && this.selectedChannel <= this.channelContents.Weather.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= false,
-      this.showCurrency= false,
-      this.showNews = false,
-      this.showNotFound= false
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
-      this.showProgram=false,
-      this.showSurveys=false,
-      this.showWeather=true
-      }
-      else if (this.selectedChannel >= this.channelContents.Program.range[0] && this.selectedChannel <= this.channelContents.Program.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= false,
-      this.showCurrency= false,
-      this.showNews = false,
-      this.showNotFound= false
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
-      this.showProgram=true,
-      this.showSurveys=false,
-      this.showWeather=false
-      }
-      else if (this.selectedChannel >= this.channelContents.Surveys.range[0] && this.selectedChannel <= this.channelContents.Surveys.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= false,
-      this.showCurrency= false,
-      this.showNews = false,
-      this.showNotFound= false
-      this.showAnnouncements= false,
-      this.showCryptoCurrencies= false,
-      this.showProgram=false,
-      this.showSurveys=true,
-      this.showWeather=false
-      }
-      else if (this.selectedChannel >= this.channelContents.Announcements.range[0] && this.selectedChannel <= this.channelContents.Announcements.range[1])
-      {
-      this.showWelcome= false,
-      this.showContents= false,
-      this.showCurrency= false,
-      this.showNews = false,
-      this.showNotFound= false
-      this.showAnnouncements= true,
-      this.showCryptoCurrencies= false,
-      this.showProgram=false,
-      this.showSurveys=false,
-      this.showWeather=false
-      }
-      else
-      {
-      this.showWelcome= false,
+        this.showWelcome= false,
       this.showContents= false,
       this.showCurrency= false,
       this.showNews = false,
@@ -221,6 +91,150 @@ return{
       this.showSurveys=false,
       this.showWeather=false
       }
+      else
+      {
+        if(this.selectedChannel >= this.channelContents.WelcomeScreen.range[0] && this.selectedChannel <= this.channelContents.WelcomeScreen.range[1])
+        {
+        this.showWelcome= true,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= false,
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=false
+        }
+        else if (this.selectedChannel >= this.channelContents.Contents.range[0] && this.selectedChannel <= this.channelContents.Contents.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= true,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= false,
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=false
+        }
+        else if (this.selectedChannel >= this.channelContents.CurrencyRates.range[0] && this.selectedChannel <= this.channelContents.CurrencyRates.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= true,
+        this.showNews = false,
+        this.showNotFound= false
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=false
+        }
+        else if (this.selectedChannel >= this.channelContents.CryptoRates.range[0] && this.selectedChannel <= this.channelContents.CryptoRates.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= false
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= true,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=false
+        }
+        else if (this.selectedChannel >= this.channelContents.News.range[0] && this.selectedChannel <= this.channelContents.News.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = true,
+        this.showNotFound= false
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=false
+        }
+        else if (this.selectedChannel >= this.channelContents.Weather.range[0] && this.selectedChannel <= this.channelContents.Weather.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= false
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=true
+        }
+        else if (this.selectedChannel >= this.channelContents.Program.range[0] && this.selectedChannel <= this.channelContents.Program.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= false
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=true,
+        this.showSurveys=false,
+        this.showWeather=false
+        }
+        else if (this.selectedChannel >= this.channelContents.Surveys.range[0] && this.selectedChannel <= this.channelContents.Surveys.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= false
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=true,
+        this.showWeather=false
+        }
+        else if (this.selectedChannel >= this.channelContents.Announcements.range[0] && this.selectedChannel <= this.channelContents.Announcements.range[1])
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= false
+        this.showAnnouncements= true,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=false
+        }
+        else
+        {
+        this.showWelcome= false,
+        this.showContents= false,
+        this.showCurrency= false,
+        this.showNews = false,
+        this.showNotFound= true,
+        this.showAnnouncements= false,
+        this.showCryptoCurrencies= false,
+        this.showProgram=false,
+        this.showSurveys=false,
+        this.showWeather=false
+      }
+      }
+     
+    },
+    ifInRange(){
+      if(this.$store.state.subpageState.subpageContent.sPageNumber <= this.$store.state.subpageState.subpageContent.maxPage  && this.$store.state.subpageState.subpageContent.sPageNumber >=1)
+      {
+        this.ifIsInRange = true
+      }
+      else
+      {
+        this.ifIsInRange = false
+      }
     }
   },
   beforeMount()
@@ -228,7 +242,7 @@ return{
     
   },
   mounted() {
-     
+    //this.ifInRange();
   this.selectedChannel = this.$route.params.page;
   this.channelContents = this.$store.state.channelContents
   this.$store.commit('setPageNumber',this.$route.params.page)

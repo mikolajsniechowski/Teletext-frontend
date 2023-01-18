@@ -11,7 +11,7 @@
       Najwyższa wartość 
     </div>
     <div class="col">
-      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.high}}$
+      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.high.toFixed(2)}}$
     </div> 
    </div>
    <div class="row">
@@ -19,7 +19,7 @@
       Najniższa wartość 
     </div>
     <div class="col">
-      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.low}}$
+      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.low.toFixed(2)}}$
     </div> 
    </div>
    <div class="row">
@@ -27,7 +27,7 @@
       Wartość zamknięcia
     </div>
     <div class="col">
-      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.close}}$
+      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.close.toFixed(2)}}$
     </div> 
    </div> 
    <div class="row">
@@ -35,7 +35,7 @@
       Wartość otwarcia
     </div>
     <div class="col">
-      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.open}}$
+      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.open.toFixed(2)}}$
     </div> 
    </div> 
    <div class="row">
@@ -43,7 +43,7 @@
       Wartość zamknięcia
     </div>
     <div class="col">
-      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.close}}$
+      {{  this.$store.state.channelContents.CryptoRates.bitcoinInfo.close.toFixed(2)}}$
     </div> 
    </div>
    <div class="row">

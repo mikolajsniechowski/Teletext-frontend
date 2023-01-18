@@ -1,6 +1,5 @@
 <template>
   <nav>
-    <router-link to="/">Telegazeta</router-link>
   </nav>
   <div class="container">
     <div class="jumbotron display-flex bg-info text-center">
@@ -16,7 +15,7 @@
               <a class="nav-link" href="#"> Ogłoszenia </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"> O nas </a>
+              <router-link to="/aboutus"> O nas </router-link>
             </li>
             <li class="nav-item">
               <router-link to="/signup"> Rejestracja </router-link>
@@ -37,7 +36,6 @@
     <div class="scroll-container">
       <div class="scroll-text">Message of the day</div>
     </div>
-
       <div class="row-fluid bg-primary text-center">
       <router-view/> 
       </div>
@@ -54,7 +52,8 @@ import VueJwtDecode from "vue-jwt-decode";
 export default {
   data() {
     return {
-      user: {}
+      user: {},
+      loaded: false,
     };
   },
   methods: {
@@ -73,10 +72,11 @@ export default {
     logUserOut() {
       localStorage.removeItem("user");
       this.$router.push("/login");
-    }
+    },
   },
-  created() {
-    this.getUserDetails();
+    
+created() {
+    this.getUserDetails(); 
   }
 };
 </script>

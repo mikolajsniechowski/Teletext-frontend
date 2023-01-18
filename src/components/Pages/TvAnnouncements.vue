@@ -13,7 +13,7 @@
   <div v-if="this.$route.params.page > $store.state.channelContents.Announcements.range[0] && this.$route.params.page <= $store.state.channelContents.Announcements.range[1]">
     <div v-for="(item) in $store.getters.SubPagination" class="row" :key="item">
       <div class="col">
-       <b> {{item[0]}} </b> <br> {{ item[1]}} <hr>
+       <h3> <b>{{item[0]}} </b><br>  {{ item[1]}}</h3> <hr>
       </div>
   </div>
   </div>

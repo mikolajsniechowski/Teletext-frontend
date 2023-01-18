@@ -6,6 +6,7 @@ import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
 import AnnouncementFormView from "@/views/AnnouncementFormView";
 import PollsView from "@/views/PollsView";
+import AboutView from "@/views/AboutView";
 const routes = [
   {
     path: '/',
@@ -59,6 +60,11 @@ const routes = [
       path: "/polls",
       name: "Polls",
       component: PollsView
+    },
+    {
+      path:"/aboutus",
+      name: "Aboutus",
+      component:AboutView
     }
 ]
 

@@ -27,13 +27,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('getNews','top');
-   this.$store.dispatch('getNews','health');
-  this.$store.dispatch('getNews','science');
-    this.$store.dispatch('getNews','business');
-    this.$store.dispatch('getNews','entertainment');
-    this.$store.dispatch('getNews','sports');
-    this.$store.dispatch('getNews','technology');
+  
     this.$watch(
       () => this.$route.params,
       () => {

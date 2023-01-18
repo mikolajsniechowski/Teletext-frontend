@@ -11,10 +11,16 @@
   </div>
   </div>
   <div v-if="this.$route.params.page > $store.state.channelContents.Surveys.range[0] && this.$route.params.page <= $store.state.channelContents.Surveys.range[1]">
-    <div v-for="(item) in $store.getters.SubPagination[0][1]" class="row" :key="item">
+    <div class="row">
       <div class="col">
-       <b> {{item[0]}} </b> <br> {{ item[1]}} <hr>
+       <p> Odpowiedź</p>
       </div>
+      <div class="col">
+       <p>Liczba oddanych głosów  </p> 
+      </div>
+    </div>
+    <div v-for="(item) in $store.getters.SubPagination[0][1]" class="row" :key="item">
+       <div class="col"><p>{{item[0]}} </p> </div><div class="col"> <p>{{ item[1]}} </p></div> 
   </div>
   </div>
 </template>
