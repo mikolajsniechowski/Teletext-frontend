@@ -49,9 +49,13 @@ export default {
         this.idscreen = this.$route.params.page
       }
     )
-    if(!this.$store.state.channelContents.Program.tvp1.length)
+    if(!this.$store.state.channelContents.Weather.lodz.length)
     {
-      await this.$store.dispatch('getProgram');  
+      try{
+        await this.$store.dispatch('getProgram');  
+      }catch{
+        console.log("Program is not loaded")
+      }
   this.$store.dispatch('getBitcoinInfo');
     this.$store.dispatch('getGlobalInfo');
     this.$store.commit('getCurrenciesData'); 

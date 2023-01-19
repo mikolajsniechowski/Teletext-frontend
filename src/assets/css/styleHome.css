@@ -80,6 +80,12 @@ a {
     font-style: bold;
     font-size:0.6em;
   }
+  .tvnoise{
+    width: 320px;
+    height: auto;
+    background-color: black;
+    margin: 0 auto;
+  }
   @media only screen and (min-width: 768px) {
 .programstyle{
   font-size: 0.75em;
@@ -91,16 +97,17 @@ a {
   font-style: bold;
   font-size:0.9em;
 }
-}
-.timecolor{
-  color:pink;
-}
 .tvnoise{
   width: 640px;
   height: auto;
   background-color: black;
   margin: 0 auto;
 }
+}
+.timecolor{
+  color:pink;
+}
+
 .inputnum{
   margin: 0 auto;
 }
