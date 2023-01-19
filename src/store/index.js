@@ -3,10 +3,19 @@ import axios from 'axios';
 import sourceDataCurrency from '@/datacurrency.json'
 import sourceDataWeather from '@/dataweather.json'
 import CoinpaprikaAPI from '@coinpaprika/api-nodejs-client'
-
+import VueJwtDecode from 'vue-jwt-decode'
+import router from '../router/index'
 export default createStore({
     state: {
         currentDate: null,
+        user:{
+          isLogged:false,
+          name:null,
+          id:null,
+          userAnnouncements:[],
+          allCategories:[],
+          allSurveys:[],
+        },
         pageState:{
             maxPage:0,
             pageNumber:1,
@@ -303,7 +312,7 @@ export default createStore({
         setAnnouncementsRange(state)
         {
           let categorysize = state.channelContents.Announcements.content.length-1;
-          console.log(categorysize);
+          //console.log(categorysize);
           state.channelContents.Announcements.range[0]=state.channelContents.Surveys.range[1]+1;
           state.channelContents.Announcements.range[1]=state.channelContents.Announcements.range[0]+categorysize;
         },
@@ -349,6 +358,15 @@ export default createStore({
             })
             
         },
+        //Login & Register Methods
+        getUserInfo(state)
+        {
+          let token = localStorage.getItem("userTokenAccess");
+          let decode = VueJwtDecode.decode(token)
+          state.user.name = decode.name
+          state.user.id = decode.user_id
+          state.user.isLogged = true;
+        }
         
     },
     actions: {
@@ -594,7 +612,7 @@ export default createStore({
                 
               results.push([surv.choice,surv.result])
               })
-             console.log(results);
+            // console.log(results);
               let surv_title = element[0];
               let payload = {survey_title: surv_title,survey_results: results,survey_id: id};
               commit('fillSurveys',payload);  
@@ -604,10 +622,156 @@ export default createStore({
             
           }
         })
-        console.log(this.state.channelContents.Surveys)
+       // console.log(this.state.channelContents.Surveys)
         commit('setAnnouncementsRange');
         commit('setChannelsContents');
     },
+    //-----Login & Register Actions 
+
+    async loginUser(state,payload) {
+      try {
+        let email=payload.email
+        let password=payload.password
+        const res = await fetch(
+          process.env.VUE_APP_API_BACKEND+"/accounts/api/token/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                email,
+                password
+              })
+            }
+        );
+        const data = await res.json();
+       // console.log(data[Object.keys(data)[1]]);
+        let tokenAccess = data.access;
+        let tokenRefresh = data.refresh;   
+        localStorage.setItem("userTokenAccess", tokenAccess);
+        localStorage.setItem("userTokenRefresh",tokenRefresh);
+        // navigate to a protected resource
+       router.push("/profile");
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
+    //User Actions
+    async getUserAnnouncements(){
+      try{
+        const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/accounts/api/profile/annoucements', {
+          headers:
+          {
+            'Authorization': 'Bearer '+localStorage.getItem('userTokenAccess')
+          }
+        });
+       // console.log(response.data)
+       response.data.forEach( element => {
+        if(this.state.user.userAnnouncements.length<response.data.length)
+        {this.state.user.userAnnouncements.push({title:element.title,description:element.description,id:element.id, status:element.annoucement_status,category_name:element.category_name})}
+       })
+      // console.log(this.state.user.userAnnouncements)
+      }catch(error){
+      console.log(error)
+      }
+    },
+    async getOnlyCategories(){
+      await axios.get(process.env.VUE_APP_API_BACKEND+'/ad/api/annoucements/category/').then(response => {
+        response.data.forEach(element => {
+          if(this.state.user.allCategories.length < response.data.length)
+          {
+            let category = element.category_name;
+          let categoryId = element.id;
+          let payload = {category_name: category,categoryId: categoryId};
+          this.state.user.allCategories.push(payload)
+         // console.log(this.state.user.allCategories)
+          }
+        })
+      })
+    },
+    async addAnn(state,payload) {
+      let title = payload.title;
+      let description=payload.description
+      let category_name= payload.categoryId
+     // console.log(payload)
+      const res = await fetch(
+        process.env.VUE_APP_API_BACKEND+"/ad/api/annoucements",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: 'Bearer ' + localStorage.getItem("userTokenAccess"),
+            },
+            body: JSON.stringify({
+              title,
+              description,
+              category_name
+            })
+          }
+      );
+      const data = await res.json();
+   // console.log(data)
+    },
+    async getOnlyAllSurveys(){
+      try{
+        const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/polls/api/polls/');
+        response.data.forEach(element => {
+          if(this.state.user.allSurveys.length < response.data.length)
+          {
+            let survey_question = element.question;
+          let surveyId = element.id;
+          let payload = {survey_question: survey_question,surveyId: surveyId,choicesArray:null};
+          this.state.user.allSurveys.push(payload)
+          }
+        })
+        this.dispatch('getOnlyAnswers')
+      }catch(error){
+        console.log(error)
+      }
+    },
+    async getOnlyAnswers(){
+      this.state.user.allSurveys.forEach( async (element,index) => {
+          let id = element.surveyId
+           try{
+            const response = await axios.get(process.env.VUE_APP_API_BACKEND+'/polls/api/polls/'+id+'/choices/');
+            let arrayChoices= []
+            response.data.forEach( choice => {
+            arrayChoices.push({id:choice.id,poll:choice.poll,choice_name:choice.choice_name})
+            })
+            this.state.user.allSurveys[index].choicesArray = arrayChoices
+          }catch(error){
+          console.log(error)
+          }
+        })
+        //console.log(this.state.user.allSurveys)
+      },
+      async voteSurvey(state,table){
+
+        table.forEach( async element => {
+          let poll = element.poll
+          let id = element.id
+          let choice = id
+          let vote_user = this.state.user.id
+          const res = await fetch(
+            process.env.VUE_APP_API_BACKEND+"/polls/api/polls/"+poll+"/choices/"+id,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: 'Bearer ' + localStorage.getItem("userTokenAccess"),
+                },
+                body: JSON.stringify({
+                  poll,
+                  choice,
+                  vote_user,
+                })
+              }
+          );
+          const data = await res.json();
+        console.log(data)
+        })
+      }
     },
     getters: {
        

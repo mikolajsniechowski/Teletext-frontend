@@ -7,6 +7,7 @@ import ProfileView from "@/views/ProfileView";
 import AnnouncementFormView from "@/views/AnnouncementFormView";
 import PollsView from "@/views/PollsView";
 import AboutView from "@/views/AboutView";
+import UserAnnouncementsView from "@/views/UserAnnouncementsView"
 const routes = [
   {
     path: '/',
@@ -60,6 +61,11 @@ const routes = [
       path: "/polls",
       name: "Polls",
       component: PollsView
+    },
+    {
+      path: "/userannouncement",
+      name: "UserAnnouncement",
+      component: UserAnnouncementsView
     },
     {
       path:"/aboutus",

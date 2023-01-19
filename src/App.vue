@@ -12,9 +12,6 @@
               <router-link to="/"> Telegazeta Online </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"> Ogłoszenia </a>
-            </li>
-            <li class="nav-item">
               <router-link to="/aboutus"> O nas </router-link>
             </li>
             <li class="nav-item">
@@ -26,7 +23,7 @@
             <li class="nav-item">
               <router-link to="/profile"> Profil </router-link>
             </li>
-            <li class="nav-item" @click="logUserOut">
+            <li v-if="$store.state.user.isLogged" class="nav-item" @click="logUserOut">
                Wyloguj
             </li>
           </ul>
@@ -41,14 +38,13 @@
       </div>
       <footer>
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    Nie wszystkie prawa zastrzeżone
+    Teletext - projekt zaliczeniowy PIPSI II
   </div>
       </footer>
  </div>
 </template>
 
 <script>
-import VueJwtDecode from "vue-jwt-decode";
 export default {
   data() {
     return {
@@ -57,26 +53,15 @@ export default {
     };
   },
   methods: {
-    getUserDetails() {
-      // get token from localstorage
-      let token = localStorage.getItem("user");
-      try {
-      //decode token here and attach to the user object
-      let decoded = VueJwtDecode.decode(token);
-      this.user = decoded;
-      } catch (error) {
-        // return error in production env
-        console.log(error, 'error from decoding token')
-      }
-    },
     logUserOut() {
-      localStorage.removeItem("user");
+      localStorage.clear();
+      this.$store.state.user.isLogged =false
       this.$router.push("/login");
     },
   },
     
 created() {
-    this.getUserDetails(); 
+    
   }
 };
 </script>

@@ -62,15 +62,15 @@ export default {
   this.$store.dispatch('getWeatherParams');
    await this.$store.dispatch('getAnnouncementsCategories');
     this.$store.dispatch('getAllSurveys');
-  //this.$store.dispatch('getMetalPrices');
+  this.$store.dispatch('getMetalPrices');
  this.$store.commit('setWeatherArrays');
     this.$store.dispatch('getNews','top');
-   /*this.$store.dispatch('getNews','health');
+  this.$store.dispatch('getNews','health');
   this.$store.dispatch('getNews','science');
     this.$store.dispatch('getNews','business');
     this.$store.dispatch('getNews','entertainment');
     this.$store.dispatch('getNews','sports');
-    this.$store.dispatch('getNews','technology');*/
+    this.$store.dispatch('getNews','technology');
     this.loaded = true;
     }
     else

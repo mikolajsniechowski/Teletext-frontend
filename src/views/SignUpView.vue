@@ -41,7 +41,7 @@ export default {
             }
         );
         const data = await res.json();
-        console.log(data);
+        //console.log(data);
         this.$router.push("/login");
       } else { console.log("Hasła się nie zgadzają") }
     }

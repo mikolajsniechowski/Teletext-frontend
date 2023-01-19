@@ -1,17 +1,20 @@
 <template>
- <div id="announcement">
+ <div v-if="$store.state.user.isLogged" id="announcement">
         <h1>Dodaj ogłoszenie</h1>
       <br />
-        <form @submit.prevent="addAnn">
+        <form @submit.prevent="addAnnouncement">
         <input type="text" name="title" v-model="title" placeholder="Tytuł" />
-        <select name="category" v-model="category_name">
-          <option value="1">Motoryzacja</option>
-          <option value="2">Praca</option>
+        <select name="category" v-model="categoryId">
+          <option v-for="(item) in $store.state.user.allCategories" :key="item.id" :value="item.categoryId ">{{ item.category_name }}</option>
         </select>
         <textarea type="text" v-model="description" placeholder="Opis ogłoszenia" />
        <br /> <button type="submit">Dodaj Ogłoszenie</button> <br />
         </form>
     </div>
+    <div v-else>
+    <h1>Jesteś niezalogowany</h1>
+    <p> Zaloguj się aby móc zobaczyć zawartość strony</p>
+  </div>
 </template>
 
 <script>
@@ -20,32 +23,24 @@
         data() {
            return {
                 title: "",
-                category_name: "",
+                categoryId: "",
                 description: "",
            }
         },
         methods: {
-          async addAnn() {
-              const {title, category_name, description} = this;
-              const res = await fetch(
-                  "https://teletextbackend.azurewebsites.net/ad/api/annoucements",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: 'Bearer ' + localStorage.getItem("user"),
-                    },
-                    body: JSON.stringify({
-                      title,
-                      description,
-                      category_name
-                    })
-                  }
-              );
-              const data = await res.json();
-              console.log(data);
-              this.$router.push("/profile");
-            }
+          async addAnnouncement() {
+      let title = this.title;
+      let description = this.description;
+      let categoryId = this.categoryId
+      let payload= {title:title,description:description,categoryId:categoryId};
+      this.$store.dispatch('addAnn',payload);
+      this.title = null;
+      this.categoryId= null;
+      this.description= null;
+    }
+          },
+          created(){
+            this.$store.dispatch('getOnlyCategories')
           }
     }
 </script>

@@ -83,7 +83,7 @@
   <div v-if="this.$route.params.page == $store.state.channelContents.CurrencyRates.range[0]+4">
     <div class="row">
       <div class="col">
-        <p>Brak podłączenia do API</p>
+        <p>Metal</p>
       </div>
       <div class="col">
         <p>Cena ($)</p>
