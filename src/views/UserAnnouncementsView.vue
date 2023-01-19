@@ -5,7 +5,6 @@
         <tr>
           <td>Tytuł</td>
           <td> Opis </td>
-          <td>Kategoria</td>
           <td>Status</td>
         </tr>
       <tr class="bg-success" v-for="(item) in $store.state.user.userAnnouncements" :key="item.id">
