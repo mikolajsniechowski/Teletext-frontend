@@ -31,7 +31,7 @@
       </nav>
 
     <div class="scroll-container">
-      <div class="scroll-text">Message of the day</div>
+      <div class="scroll-text">Error 404 - Message of the day not found</div>
     </div>
       <div class="row-fluid bg-primary text-center">
       <router-view/> 
