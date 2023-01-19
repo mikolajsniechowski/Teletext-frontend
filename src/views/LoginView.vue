@@ -5,7 +5,7 @@
       <form @submit.prevent="loginUser">
         <input type="text" name="email" v-model="email" placeholder="E-mail" />
         <input type="password" name="password" v-model="password" placeholder="Password" />
-       <br /> <button type="submit">Zaloguj się</button> <br />
+       <br /> <button type="submit" v-on:click="login">Zaloguj się</button> <br />
         </form>
     </div>
 </template>
@@ -20,31 +20,13 @@ export default {
     };
   },
   methods: {
-    async loginUser() {
-      try {
-        const {email, password} = this;
-        const res = await fetch(
-            "https://teletextbackend.azurewebsites.net/accounts/api/token/",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                email,
-                password
-              })
-            }
-        );
-        const data = await res.json();
-       // console.log(data[Object.keys(data)[1]]);
-        let token = data[Object.keys(data)[1]];
-        localStorage.setItem("user", token);
-        // navigate to a protected resource
-        this.$router.push("/profile");
-      } catch (err) {
-        console.log(err.response);
-      }
+    async login() {
+      let email = this.email;
+      let password = this.password;
+      let payload= {email:email,password:password};
+      this.$store.dispatch('loginUser',payload);
+      this.email = null;
+      this.password = null;
     }
   }
 };
