@@ -711,7 +711,7 @@ export default createStore({
           }
       );
       const data = await res.json();
-   // console.log(data)
+   console.log(data)
     },
     async getOnlyAllSurveys(){
       try{
