@@ -54,7 +54,8 @@ export default {
       try{
         await this.$store.dispatch('getProgram');  
       }catch{
-        console.log("Program is not loaded")
+        console.log("Program is not loaded. Please reload the page")
+        this.$store.dispatch('MockProgram');
       }
   this.$store.dispatch('getBitcoinInfo');
     this.$store.dispatch('getGlobalInfo');

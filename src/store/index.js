@@ -541,6 +541,15 @@ export default createStore({
         
         
       }, 
+      MockProgram(){
+        let loremipsum =["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec massa quis nunc suscipit posuere. Nunc nec ornare nunc. Nullam vehicula et lorem eu suscipit. Proin nec varius justo."]
+        this.state.channelContents.Program.tvp1.push(loremipsum);
+        this.state.channelContents.Program.tvp2.push(loremipsum)
+        this.state.channelContents.Program.tvpinf.push(loremipsum)
+        this.state.channelContents.Program.tvpksp.push(loremipsum)
+        this.state.channelContents.Program.tvpktr.push(loremipsum)
+        this.state.channelContents.Program.tvpnk.push(loremipsum)
+      },
       //---------------Announcements Actions
       async getAnnouncementsCategories({commit,getters,dispatch }){
         return await axios.get(process.env.VUE_APP_API_BACKEND+'/ad/api/annoucements/category/').then(response => {
